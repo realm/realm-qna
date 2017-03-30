@@ -1,0 +1,11 @@
+<h2>Realm Question</h2>
+
+<a href="/write">Write</a>
+
+<h2>currentUser: {{currentUser}}</h2>
+
+{{#each questions}}
+  <h3>author: {{author}}</h3>
+  <p>question: {{question}}</p>
+  {{#ifCond author ../currentUser}}<button>edit</button>{{/ifCond}}
+{{/each}}
