@@ -21,11 +21,19 @@ let QuestionSchema = {
     status: {type: 'bool', default: true},
     timestamp: 'date',
     question: 'string',
-    author: 'string',
-    vote: {type: 'int', default: 0},
+    author: {type: 'User'},
+    vote: {type: 'list', objectType: 'User'},
     isAnswered: {type: 'bool', default: false},
   }
 };
+
+let UserSchema = {
+  name: 'User',
+  primaryKey: 'id',
+  properties: {
+    id: 'string'
+  }
+}
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
@@ -64,7 +72,7 @@ app.get('/', function(req, res) {
           user: user,
           url: 'realm://127.0.0.1:9080/~/question-realm',
         },
-        schema: [QuestionSchema]
+        schema: [QuestionSchema, UserSchema]
       });
 
       let questions = syncRealm.objects('Question').sorted('id', true);
@@ -82,29 +90,40 @@ app.get('/write', function(req, res) {
 app.post('/write', function(req, res) {
   Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
     if (!error) {
-      var syncRealm = new Realm({
-        sync: {
-          user: user,
-          url: 'realm://127.0.0.1:9080/~/question-realm',
-        },
-        schema: [QuestionSchema]
-      });
-
-      let question = req.body['question'],
-      author = req.body['author'],
-      timestamp = new Date(),
-      questions = syncRealm.objects('Question').sorted('id', true);
-      let id = (questions.length == 0 ? 0 : questions[0].id + 1);
-
       var sess = req.session;
       if (!sess.author) {
         sess.author = gennuid()
       }
 
-      console.log("id:" + id + " author: " + sess.author + "question: " + question);
-
+      let syncRealm = new Realm({
+        sync: {
+          user: user,
+          url: 'realm://127.0.0.1:9080/~/question-realm',
+        },
+        schema: [QuestionSchema, UserSchema]
+      });
+      
+      let question = req.body['question'],
+      timestamp = new Date(),
+      questions = syncRealm.objects('Question').sorted('id', true)
+      let id = (questions.length == 0 ? 0 : questions[0].id + 1)
+  
+      var pred = 'id = "' + sess.author + '"' 
+      let newAuthor =  syncRealm.objects('User').filtered(pred)
+            
+      if (newAuthor.length == 0) {
+        syncRealm.write(() => {
+          console.log("author write")
+          newAuthor = syncRealm.create('User', {id: sess.author}, true)
+        });
+      } else {
+        newAuthor = newAuthor[0]
+      }
+      
       syncRealm.write(() => {
-        syncRealm.create('Question', {id: id, question: question, author: sess.author, timestamp: timestamp});
+        console.log("question write")
+        console.log("id: " + id + " author: " + newAuthor.id + "question: " + question);
+        syncRealm.create('Question', {id: id, question: question, author: newAuthor, timestamp: timestamp})
       });
     }
   });
@@ -113,7 +132,7 @@ app.post('/write', function(req, res) {
 });
 
 app.listen(3000, function() {
-  console.log("Go!");
+  console.log("listening localhost:3000");
 });
 
 function gennuid() {
