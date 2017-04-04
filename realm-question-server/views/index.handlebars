@@ -8,13 +8,15 @@
 <div>
   <h3>author: {{author.id}}</h3>
   <p>question: {{question}}</p>
-  {{#ifCond author.id ../currentUser}}<button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>{{/ifCond}}
+  {{#ifCond author.id ../currentUser}}
+    <button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>
+    <button id="delete" onclick="deleteQuestion(this.parentNode, {{id}}, '{{question}}' )">delete</button>
+  {{/ifCond}}
 </div>
 {{/each}}
 
 <script>
 function editQuestion(targetDiv, qid, question) {
-
   while (targetDiv.hasChildNodes() ) {
     targetDiv.removeChild(targetDiv.firstChild)
   }
@@ -42,4 +44,39 @@ function editQuestion(targetDiv, qid, question) {
   form.appendChild(submitButton)
   targetDiv.appendChild(form)
 }
+
+function deleteQuestion(targetDiv, qid, question) {
+  while (targetDiv.hasChildNodes() ) {
+    targetDiv.removeChild(targetDiv.firstChild)
+  }
+
+  var confirmText = document.createElement("h3")
+  confirmText.innerHTML = "Are you really want to delete this question?"
+
+  var cancelButton = document.createElement("button")
+  cancelButton.setAttribute('type', "button")
+  cancelButton.setAttribute('onclick', "location.href='/'")
+  cancelButton.innerHTML = "Cancle"
+
+  var delForm = document.createElement("form")
+  delForm.setAttribute("method", "post")
+
+  var hiddenForm = document.createElement("textarea")
+  hiddenForm.setAttribute('type', "text")
+  hiddenForm.setAttribute('name', "qid")
+  hiddenForm.value = qid
+  hiddenForm.style.display = 'none';
+
+  var deleteButton = document.createElement("button")
+  deleteButton.setAttribute('type', "submit")
+  deleteButton.innerHTML = "Delete"
+
+  delForm.appendChild(hiddenForm)
+  delForm.appendChild(cancelButton)
+  delForm.appendChild(deleteButton)
+
+  targetDiv.appendChild(confirmText)
+  targetDiv.appendChild(delForm)
+}
+
 </script>

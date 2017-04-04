@@ -98,12 +98,19 @@ app.post('/', function(req, res) {
       qid = Number(req.body['qid']),
       timestamp = new Date()
 
-      syncRealm.write(() => {
-        console.log("question edit")
-        console.log("id: " + qid + "question: " + question);
+      if (question) {
+        syncRealm.write(() => {
+          console.log("id: " + qid + "question: " + question)
 
-        syncRealm.create('Question', {id: qid, question: question, timestamp: timestamp}, true)
-      });
+          syncRealm.create('Question', {id: qid, question: question, timestamp: timestamp}, true)
+        });
+      } else {
+        syncRealm.write(() => {
+          console.log("delete" + "id: " + qid)
+
+          syncRealm.create('Question', {id: qid, status: false, timestamp: timestamp}, true)
+        });
+      }
     }
   });
 
