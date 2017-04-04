@@ -75,12 +75,39 @@ app.get('/', function(req, res) {
         schema: [QuestionSchema, UserSchema]
       });
 
-      let questions = syncRealm.objects('Question').sorted('id', true);
+      let questions = syncRealm.objects('Question').filtered('status = true').sorted('id', true);
       res.render('index', {currentUser: sess.author, questions: questions});
     } else {
       res.send(error.toString());
     }
   });
+});
+
+app.post('/', function(req, res) {
+  Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
+    if (!error) {
+      let syncRealm = new Realm({
+        sync: {
+          user: user,
+          url: 'realm://127.0.0.1:9080/~/question-realm',
+        },
+        schema: [QuestionSchema, UserSchema]
+      });
+
+      let question = req.body['question'],
+      qid = Number(req.body['qid']),
+      timestamp = new Date()
+
+      syncRealm.write(() => {
+        console.log("question edit")
+        console.log("id: " + qid + "question: " + question);
+
+        syncRealm.create('Question', {id: qid, question: question, timestamp: timestamp}, true)
+      });
+    }
+  });
+
+  res.sendFile(__dirname + "/write-complete.html");
 });
 
 app.get('/write', function(req, res) {
@@ -102,15 +129,15 @@ app.post('/write', function(req, res) {
         },
         schema: [QuestionSchema, UserSchema]
       });
-      
+
       let question = req.body['question'],
       timestamp = new Date(),
       questions = syncRealm.objects('Question').sorted('id', true)
       let id = (questions.length == 0 ? 0 : questions[0].id + 1)
-  
-      var pred = 'id = "' + sess.author + '"' 
+
+      var pred = 'id = "' + sess.author + '"'
       let newAuthor =  syncRealm.objects('User').filtered(pred)
-            
+
       if (newAuthor.length == 0) {
         syncRealm.write(() => {
           console.log("author write")
@@ -119,7 +146,7 @@ app.post('/write', function(req, res) {
       } else {
         newAuthor = newAuthor[0]
       }
-      
+
       syncRealm.write(() => {
         console.log("question write")
         console.log("id: " + id + " author: " + newAuthor.id + "question: " + question);

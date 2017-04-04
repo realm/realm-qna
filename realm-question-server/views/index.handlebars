@@ -5,7 +5,41 @@
 <h2>currentUser: {{currentUser}}</h2>
 
 {{#each questions}}
+<div>
   <h3>author: {{author.id}}</h3>
   <p>question: {{question}}</p>
-  {{#ifCond author.id ../currentUser}}<button>edit</button>{{/ifCond}}
+  {{#ifCond author.id ../currentUser}}<button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>{{/ifCond}}
+</div>
 {{/each}}
+
+<script>
+function editQuestion(targetDiv, qid, question) {
+
+  while (targetDiv.hasChildNodes() ) {
+    targetDiv.removeChild(targetDiv.firstChild)
+  }
+
+  var form = document.createElement("form");
+  form.setAttribute("method", "post");
+
+  var hiddenForm = document.createElement("textarea")
+  hiddenForm.setAttribute('type', "text")
+  hiddenForm.setAttribute('name', "qid")
+  hiddenForm.value = qid
+  hiddenForm.style.display = 'none';
+
+  var inputForm = document.createElement("textarea")
+  inputForm.setAttribute('type', "text")
+  inputForm.setAttribute('name', "question")
+  inputForm.innerHTML = question
+
+  var submitButton = document.createElement("button")
+  submitButton.setAttribute('type', "submit")
+  submitButton.innerHTML = "Submit"
+
+  form.appendChild(hiddenForm)
+  form.appendChild(inputForm)
+  form.appendChild(submitButton)
+  targetDiv.appendChild(form)
+}
+</script>
