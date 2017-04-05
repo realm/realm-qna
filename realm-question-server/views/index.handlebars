@@ -8,10 +8,20 @@
 <div>
   <h3>author: {{author.id}}</h3>
   <p>question: {{question}}</p>
+  <p>vote: {{vote.length}}</p>
   {{#ifCond author.id ../currentUser}}
     <button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>
     <button id="delete" onclick="deleteQuestion(this.parentNode, {{id}}, '{{question}}' )">delete</button>
   {{/ifCond}}
+  
+  <button id="vote" onclick="voteQuestion(this.parentNode, {{id}}, 'true')">vote</button>
+  
+  {{#each vote}}
+    {{#ifCond id ../../currentUser}}
+      <button id="unvote" onclick="voteQuestion(this.parentNode, {{../id}},  'false')">unvote</button>
+    {{/ifCond}}
+  {{/each}}
+  
 </div>
 {{/each}}
 
@@ -56,7 +66,7 @@ function deleteQuestion(targetDiv, qid, question) {
   var cancelButton = document.createElement("button")
   cancelButton.setAttribute('type', "button")
   cancelButton.setAttribute('onclick', "location.href='/'")
-  cancelButton.innerHTML = "Cancle"
+  cancelButton.innerHTML = "Cancel"
 
   var delForm = document.createElement("form")
   delForm.setAttribute("method", "post")
@@ -77,6 +87,33 @@ function deleteQuestion(targetDiv, qid, question) {
 
   targetDiv.appendChild(confirmText)
   targetDiv.appendChild(delForm)
+}
+
+function voteQuestion(targetDiv, vid, isVote) {
+  var hiddenForm = document.createElement("textarea")
+  hiddenForm.setAttribute('type', "text")
+  hiddenForm.setAttribute('name', "vid")
+  hiddenForm.value = vid
+  hiddenForm.style.display = 'none';
+
+  var hiddenFormVote = document.createElement("textarea")
+  hiddenFormVote.setAttribute('type', "text")
+  hiddenFormVote.setAttribute('name', "isVote")
+  
+  if (isVote == "true") {
+    hiddenFormVote.value = "true"
+  }
+  hiddenFormVote.style.display = 'none';
+  
+  var voteForm = document.createElement("form")
+  voteForm.setAttribute("method", "post")
+  voteForm.appendChild(hiddenForm)
+  voteForm.appendChild(hiddenFormVote)
+  
+  targetDiv.appendChild(voteForm)
+  voteForm.submit()
+  
+  console.log("voteForm.submit()")
 }
 
 </script>

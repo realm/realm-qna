@@ -84,6 +84,8 @@ app.get('/', function(req, res) {
 });
 
 app.post('/', function(req, res) {
+  console.log("post")
+  
   Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
     if (!error) {
       let syncRealm = new Realm({
@@ -96,26 +98,80 @@ app.post('/', function(req, res) {
 
       let question = req.body['question'],
       qid = Number(req.body['qid']),
-      timestamp = new Date()
-
-      if (question) {
+      vid = req.body['vid'],
+      isVote = req.body['isVote'],
+      timestamp = new Date(),
+      sess = req.session;
+  
+      console.log("question: " + question + "qid: " + qid + "vid: " + vid)
+      
+      if (vid) {
+        let votes = syncRealm.objects('Question').filtered('id == ' + vid)[0].vote
+        
+        var pred = 'id = "' + sess.author + '"'
+        let voteUser =  syncRealm.objects('User').filtered(pred)
+        if (voteUser.length == 0) {
+          syncRealm.write(() => {
+            console.log("author write")
+            voteUser = syncRealm.create('User', {id: sess.author}, true)
+          })
+        } else {
+          voteUser = voteUser[0]
+        }
+        
+        syncRealm.write(() => {
+          for (var i = 0, user; user = votes[i]; i++) {
+            if (user.id == voteUser.id) {
+              votes.splice(i, 1)
+            }
+          }
+          if (isVote == 'true') {
+            votes.push(voteUser)
+          }
+        })
+      } else if (question) {
         syncRealm.write(() => {
           console.log("id: " + qid + "question: " + question)
-
           syncRealm.create('Question', {id: qid, question: question, timestamp: timestamp}, true)
         });
-      } else {
+      } else if (qid){
         syncRealm.write(() => {
           console.log("delete" + "id: " + qid)
-
           syncRealm.create('Question', {id: qid, status: false, timestamp: timestamp}, true)
-        });
+        })
       }
     }
-  });
+  })
 
   res.sendFile(__dirname + "/write-complete.html");
-});
+})
+
+// app.put('/', function(req, res) {
+//   
+//   console.log("put")
+//   Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
+//     if (!error) {
+//       let syncRealm = new Realm({
+//         sync: {
+//           user: user,
+//           url: 'realm://127.0.0.1:9080/~/question-realm',
+//         },
+//         schema: [QuestionSchema, UserSchema]
+//       });
+// 
+//       let qid = req.body['qid'],
+//       uid = req.body['uid'];
+//       console.log("qid: " + qid + "uid: " + uid)
+//       
+//       if (qid && uid) {
+//         let votes = syncRealm.objects('Question').filtered('id = "' + qid + '"')[0].votes;
+//         console.log("vote: " + votes)
+//       }
+//     }
+//   });
+//   
+//   res.sendFile(__dirname + "/write-complete.html");
+// });
 
 app.get('/write', function(req, res) {
   res.sendFile(__dirname + "/write.html");
@@ -172,30 +228,3 @@ app.listen(3000, function() {
 function gennuid() {
   return new Date().toLocaleTimeString() + Math.floor(Math.random() * 10000)
 }
-
-// handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-//     switch (operator) {
-//         case '==':
-//             return (v1 == v2) ? options.fn(this) : options.inverse(this);
-//         case '===':
-//             return (v1 === v2) ? options.fn(this) : options.inverse(this);
-//         case '!=':
-//             return (v1 != v2) ? options.fn(this) : options.inverse(this);
-//         case '!==':
-//             return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-//         case '<':
-//             return (v1 < v2) ? options.fn(this) : options.inverse(this);
-//         case '<=':
-//             return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-//         case '>':
-//             return (v1 > v2) ? options.fn(this) : options.inverse(this);
-//         case '>=':
-//             return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-//         case '&&':
-//             return (v1 && v2) ? options.fn(this) : options.inverse(this);
-//         case '||':
-//             return (v1 || v2) ? options.fn(this) : options.inverse(this);
-//         default:
-//             return options.inverse(this);
-//     }
-// });
