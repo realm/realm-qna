@@ -7,17 +7,65 @@
 //
 
 import UIKit
+import RealmLoginKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.main.bounds)
+        if configureDefaultRealm() {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! ViewController
+
+            window?.rootViewController = viewController
+            window?.makeKeyAndVisible()
+        } else {
+            window?.rootViewController = UIViewController()
+            window?.makeKeyAndVisible()
+            logIn(animated: false)
+        }
         return true
     }
+    
+    func logIn(animated: Bool = true) {
+        let loginController = LoginViewController(style: .darkTranslucent)
+        loginController.isServerURLFieldHidden = true
+        loginController.isRememberAccountDetailsFieldHidden = true
+        loginController.serverURL = Constants.syncAuthURL.absoluteString
+        loginController.loginSuccessfulHandler = { user in
+            setDefaultRealmConfiguration(with: user)
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! ViewController
+            
+            self.window?.rootViewController = viewController
+            self.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        }
+        
+        window?.rootViewController?.present(loginController, animated: false, completion: nil)
+    }
+    
+    func configureDefaultRealm() -> Bool {
+        if let user = SyncUser.current {
+            setDefaultRealmConfiguration(with: user)
+            return true
+        }
+        return false
+    }
+    
+    func present(error: NSError) {
+        let alertController = UIAlertController(title: error.localizedDescription,
+                                                message: error.localizedFailureReason ?? "",
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Try Again", style: .default) { _ in
+            self.logIn()
+        })
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

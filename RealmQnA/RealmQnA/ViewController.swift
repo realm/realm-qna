@@ -11,15 +11,12 @@ import RealmSwift
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
-    let serverURL = URL(string: "http://127.0.0.1:9080")!
-    let user = "question.admin@realm.io"
-    let password = "realmkoreaadmin"
-    
     @IBOutlet weak var eventName: UITextField!
     @IBOutlet weak var eventNumber: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         initializeTextFields()
     }
 
@@ -40,63 +37,48 @@ class ViewController: UIViewController, UITextFieldDelegate {
     //MARK: realm
     
     func makeEvent(eid: Int, name:String) {
-        let credentials = SyncCredentials.usernamePassword(username: user, password: password)
-        
-        SyncUser.logIn(with: credentials, server: serverURL) { user, error in
-            if let user = user {
-                let syncServerURL = URL(string: "realm://127.0.0.1:9080/~/event-realm")!
-                let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: syncServerURL))
+        let syncServerURL = Constants.syncEventURL
+        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
                 
-                let realm = try! Realm(configuration: config)
-                let events = realm.objects(Event.self)
+        let realm = try! Realm(configuration: config)
+        let events = realm.objects(Event.self)
                 
-                for event in events {
-                    print(event.name)
+        for event in events {
+            print(event.name)
                     
-                    if event.id == eid {
-                        print("same event %d is already exists")
-                        return
-                    }
-                }
-                
-                let newEvent = Event(value: [eid, true, name])
-                
-                try! realm.write {
-                    realm.add(newEvent)
-                }
-                
-                self.useQuestionRealm(eid: eid)
-                
-            } else if let error = error {
-                print("log in error")
+            if event.id == eid {
+                print("same event %d is already exists")
+                return
             }
         }
+                
+        let newEvent = Event(value: [eid, true, name])
+                
+        try! realm.write {
+            realm.add(newEvent)
+        }
+                
+        self.useQuestionRealm(eid: eid)
     }
     
-    func useQuestionRealm(eid:Int) {
-        let credentials = SyncCredentials.usernamePassword(username: user, password: password)
+    func useQuestionRealm(eid:Int) {        
+//        var baseURL = "realm://127.0.0.1:9080/~/question-realm"
+//        baseURL += String(eid)
         
-        SyncUser.logIn(with: credentials, server: serverURL) { user, error in
-            if let user = user {
-                var baseURL = "realm://127.0.0.1:9080/~/question-realm"
-                baseURL += String(eid)
+        let baseURL = "\(Constants.syncQuestionURL)\(String(eid))"
                 
-                let syncServerURL = URL(string: baseURL)!
-                let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: syncServerURL))
+        let syncServerURL = URL(string: baseURL)!
+        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
                 
-                let realm = try! Realm(configuration: config)
-                let questions = realm.objects(Question.self)
+        let realm = try! Realm(configuration: config)
+        let questions = realm.objects(Question.self)
                 
-                for question in questions {
-                    print(question.question)
-                }
-                
-                print("question count: %f", questions.count)
-                
-            } else if let error = error {
-                print("log in error")
-            }
+        for question in questions {
+            print(question.question)
         }
+                
+        print("question count: %f", questions.count)
+
     }
     
     //MARK: textfields
@@ -133,11 +115,18 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return scanner.scanDecimal(nil) && scanner.isAtEnd
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
-
-
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 

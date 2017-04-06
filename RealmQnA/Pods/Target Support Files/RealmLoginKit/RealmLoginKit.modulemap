@@ -1,0 +1,6 @@
+framework module RealmLoginKit {
+  umbrella header "RealmLoginKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

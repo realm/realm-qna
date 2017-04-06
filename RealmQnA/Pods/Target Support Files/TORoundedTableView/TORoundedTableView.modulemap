@@ -1,0 +1,6 @@
+framework module TORoundedTableView {
+  umbrella header "TORoundedTableView-umbrella.h"
+
+  export *
+  module * { export * }
+}

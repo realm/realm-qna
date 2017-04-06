@@ -10,6 +10,8 @@
 		CA11516B1E95DF31005D1FBD /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516A1E95DF31005D1FBD /* Question.swift */; };
 		CA11516D1E95E14C005D1FBD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516C1E95E14C005D1FBD /* User.swift */; };
 		CA11516F1E960962005D1FBD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516E1E960962005D1FBD /* Event.swift */; };
+		CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151721E96263D005D1FBD /* SharedFunctionality.swift */; };
+		CA1151751E962694005D1FBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151741E962694005D1FBD /* Constants.swift */; };
 		CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */; };
 		CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD81E949EC400DE0A76 /* ViewController.swift */; };
 		CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */; };
@@ -24,6 +26,8 @@
 		CA11516A1E95DF31005D1FBD /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		CA11516C1E95E14C005D1FBD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CA11516E1E960962005D1FBD /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		CA1151721E96263D005D1FBD /* SharedFunctionality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFunctionality.swift; sourceTree = "<group>"; };
+		CA1151741E962694005D1FBD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CAC0ACD31E949EC400DE0A76 /* RealmQnA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmQnA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAC0ACD81E949EC400DE0A76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 				CA11516A1E95DF31005D1FBD /* Question.swift */,
 				CA11516C1E95E14C005D1FBD /* User.swift */,
 				CA11516E1E960962005D1FBD /* Event.swift */,
+				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
+				CA1151741E962694005D1FBD /* Constants.swift */,
 			);
 			path = RealmQnA;
 			sourceTree = "<group>";
@@ -225,6 +231,8 @@
 				CA11516B1E95DF31005D1FBD /* Question.swift in Sources */,
 				CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */,
 				CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */,
+				CA1151751E962694005D1FBD /* Constants.swift in Sources */,
+				CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */,
 				CA11516F1E960962005D1FBD /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
