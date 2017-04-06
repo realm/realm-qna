@@ -8,7 +8,7 @@
 <div>
   <h3>author: {{author.id}}</h3>
   <p>question: {{question}}</p>
-  <p>vote: {{vote.length}}</p>
+  <p>votes: {{votes.length}}</p>
   {{#ifCond author.id ../currentUser}}
     <button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>
     <button id="delete" onclick="deleteQuestion(this.parentNode, {{id}}, '{{question}}' )">delete</button>
@@ -16,7 +16,7 @@
   
   <button id="vote" onclick="voteQuestion(this.parentNode, {{id}}, 'true')">vote</button>
   
-  {{#each vote}}
+  {{#each votes}}
     {{#ifCond id ../../currentUser}}
       <button id="unvote" onclick="voteQuestion(this.parentNode, {{../id}},  'false')">unvote</button>
     {{/ifCond}}

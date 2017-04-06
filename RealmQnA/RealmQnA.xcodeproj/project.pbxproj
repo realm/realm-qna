@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA11516B1E95DF31005D1FBD /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516A1E95DF31005D1FBD /* Question.swift */; };
+		CA11516D1E95E14C005D1FBD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516C1E95E14C005D1FBD /* User.swift */; };
+		CA11516F1E960962005D1FBD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516E1E960962005D1FBD /* Event.swift */; };
 		CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */; };
 		CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD81E949EC400DE0A76 /* ViewController.swift */; };
 		CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */; };
@@ -18,6 +21,9 @@
 /* Begin PBXFileReference section */
 		92699347D316EA7016805D26 /* Pods-RealmQnA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmQnA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RealmQnA/Pods-RealmQnA.debug.xcconfig"; sourceTree = "<group>"; };
 		BD816F903EFCE65490DE936B /* Pods_RealmQnA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealmQnA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA11516A1E95DF31005D1FBD /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		CA11516C1E95E14C005D1FBD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CA11516E1E960962005D1FBD /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		CAC0ACD31E949EC400DE0A76 /* RealmQnA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmQnA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAC0ACD81E949EC400DE0A76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +81,9 @@
 				CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */,
 				CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */,
 				CAC0ACE21E949EC400DE0A76 /* Info.plist */,
+				CA11516A1E95DF31005D1FBD /* Question.swift */,
+				CA11516C1E95E14C005D1FBD /* User.swift */,
+				CA11516E1E960962005D1FBD /* Event.swift */,
 			);
 			path = RealmQnA;
 			sourceTree = "<group>";
@@ -212,8 +221,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA11516D1E95E14C005D1FBD /* User.swift in Sources */,
+				CA11516B1E95DF31005D1FBD /* Question.swift in Sources */,
 				CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */,
 				CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */,
+				CA11516F1E960962005D1FBD /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +391,7 @@
 				CAC0ACE71E949EC400DE0A76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -22,7 +22,7 @@ let QuestionSchema = {
     timestamp: 'date',
     question: 'string',
     author: {type: 'User'},
-    vote: {type: 'list', objectType: 'User'},
+    votes: {type: 'list', objectType: 'User'},
     isAnswered: {type: 'bool', default: false},
   }
 };
@@ -106,7 +106,7 @@ app.post('/', function(req, res) {
       console.log("question: " + question + "qid: " + qid + "vid: " + vid)
       
       if (vid) {
-        let votes = syncRealm.objects('Question').filtered('id == ' + vid)[0].vote
+        let votes = syncRealm.objects('Question').filtered('id == ' + vid)[0].votes
         
         var pred = 'id = "' + sess.author + '"'
         let voteUser =  syncRealm.objects('User').filtered(pred)
