@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class addEventViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var eventName: UITextField!
     @IBOutlet weak var eventNumber: UITextField!
@@ -61,10 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.useQuestionRealm(eid: eid)
     }
     
-    func useQuestionRealm(eid:Int) {        
-//        var baseURL = "realm://127.0.0.1:9080/~/question-realm"
-//        baseURL += String(eid)
-        
+    func useQuestionRealm(eid:Int) {
         let baseURL = "\(Constants.syncQuestionURL)\(String(eid))"
                 
         let syncServerURL = URL(string: baseURL)!

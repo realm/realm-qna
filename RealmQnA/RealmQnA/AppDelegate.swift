@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         if configureDefaultRealm() {
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! ViewController
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! UINavigationController
 
             window?.rootViewController = viewController
             window?.makeKeyAndVisible()
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loginController.loginSuccessfulHandler = { user in
             setDefaultRealmConfiguration(with: user)
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! ViewController
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainViewController") as! UINavigationController
             
             self.window?.rootViewController = viewController
             self.window?.rootViewController?.dismiss(animated: true, completion: nil)

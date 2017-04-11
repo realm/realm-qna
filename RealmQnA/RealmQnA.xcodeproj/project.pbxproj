@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A87B9E311E9CAA500011D0F1 /* EventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */; };
+		A87B9E331E9CB0D50011D0F1 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */; };
 		CA11516B1E95DF31005D1FBD /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516A1E95DF31005D1FBD /* Question.swift */; };
 		CA11516D1E95E14C005D1FBD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516C1E95E14C005D1FBD /* User.swift */; };
 		CA11516F1E960962005D1FBD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516E1E960962005D1FBD /* Event.swift */; };
 		CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151721E96263D005D1FBD /* SharedFunctionality.swift */; };
 		CA1151751E962694005D1FBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151741E962694005D1FBD /* Constants.swift */; };
 		CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */; };
-		CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD81E949EC400DE0A76 /* ViewController.swift */; };
+		CAC0ACD91E949EC400DE0A76 /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */; };
 		CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */; };
 		CAC0ACDE1E949EC400DE0A76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */; };
 		CAC0ACE11E949EC400DE0A76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		92699347D316EA7016805D26 /* Pods-RealmQnA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmQnA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RealmQnA/Pods-RealmQnA.debug.xcconfig"; sourceTree = "<group>"; };
+		A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewController.swift; sourceTree = "<group>"; };
+		A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		BD816F903EFCE65490DE936B /* Pods_RealmQnA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RealmQnA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA11516A1E95DF31005D1FBD /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		CA11516C1E95E14C005D1FBD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -30,7 +34,7 @@
 		CA1151741E962694005D1FBD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CAC0ACD31E949EC400DE0A76 /* RealmQnA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmQnA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CAC0ACD81E949EC400DE0A76 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewController.swift; sourceTree = "<group>"; };
 		CAC0ACDB1E949EC400DE0A76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAC0ACE01E949EC400DE0A76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -80,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */,
-				CAC0ACD81E949EC400DE0A76 /* ViewController.swift */,
+				CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */,
 				CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */,
 				CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */,
 				CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */,
@@ -90,6 +94,8 @@
 				CA11516E1E960962005D1FBD /* Event.swift */,
 				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
 				CA1151741E962694005D1FBD /* Constants.swift */,
+				A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */,
+				A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */,
 			);
 			path = RealmQnA;
 			sourceTree = "<group>";
@@ -227,9 +233,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A87B9E331E9CB0D50011D0F1 /* EventTableViewCell.swift in Sources */,
 				CA11516D1E95E14C005D1FBD /* User.swift in Sources */,
 				CA11516B1E95DF31005D1FBD /* Question.swift in Sources */,
-				CAC0ACD91E949EC400DE0A76 /* ViewController.swift in Sources */,
+				A87B9E311E9CAA500011D0F1 /* EventTableViewController.swift in Sources */,
+				CAC0ACD91E949EC400DE0A76 /* AddEventViewController.swift in Sources */,
 				CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */,
 				CA1151751E962694005D1FBD /* Constants.swift in Sources */,
 				CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */,
