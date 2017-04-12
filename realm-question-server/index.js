@@ -35,6 +35,7 @@ let UserSchema = {
   }
 }
 
+app.use('/static', express.static('static'))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
   secret: 'realm questions',
@@ -172,10 +173,6 @@ app.post('/', function(req, res) {
 //   
 //   res.sendFile(__dirname + "/write-complete.html");
 // });
-
-app.get('/write', function(req, res) {
-  res.sendFile(__dirname + "/write.html");
-});
 
 app.post('/write', function(req, res) {
   Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
