@@ -19,6 +19,12 @@
 		CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */; };
 		CAC0ACDE1E949EC400DE0A76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */; };
 		CAC0ACE11E949EC400DE0A76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */; };
+		CAF7E53D1E9E044800427E6F /* QuestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7E53C1E9E044800427E6F /* QuestionTableViewCell.swift */; };
+		CAF7E5411E9E11D000427E6F /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF7E5401E9E11D000427E6F /* EventDetailViewController.swift */; };
+		CAF7E5471E9E20AC00427E6F /* like-off.png in Resources */ = {isa = PBXBuildFile; fileRef = CAF7E5431E9E20AC00427E6F /* like-off.png */; };
+		CAF7E5481E9E20AC00427E6F /* like-on.png in Resources */ = {isa = PBXBuildFile; fileRef = CAF7E5441E9E20AC00427E6F /* like-on.png */; };
+		CAF7E5491E9E20AC00427E6F /* vote-off.png in Resources */ = {isa = PBXBuildFile; fileRef = CAF7E5451E9E20AC00427E6F /* vote-off.png */; };
+		CAF7E54A1E9E20AC00427E6F /* vote-on.png in Resources */ = {isa = PBXBuildFile; fileRef = CAF7E5461E9E20AC00427E6F /* vote-on.png */; };
 		ECE751932060BD115616C580 /* Pods_RealmQnA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD816F903EFCE65490DE936B /* Pods_RealmQnA.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +45,12 @@
 		CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAC0ACE01E949EC400DE0A76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CAC0ACE21E949EC400DE0A76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAF7E53C1E9E044800427E6F /* QuestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionTableViewCell.swift; sourceTree = "<group>"; };
+		CAF7E5401E9E11D000427E6F /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		CAF7E5431E9E20AC00427E6F /* like-off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like-off.png"; path = "Images/like-off.png"; sourceTree = "<group>"; };
+		CAF7E5441E9E20AC00427E6F /* like-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like-on.png"; path = "Images/like-on.png"; sourceTree = "<group>"; };
+		CAF7E5451E9E20AC00427E6F /* vote-off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "vote-off.png"; path = "Images/vote-off.png"; sourceTree = "<group>"; };
+		CAF7E5461E9E20AC00427E6F /* vote-on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "vote-on.png"; path = "Images/vote-on.png"; sourceTree = "<group>"; };
 		F1296FDA802285A6DE6760EA /* Pods-RealmQnA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RealmQnA.release.xcconfig"; path = "Pods/Target Support Files/Pods-RealmQnA/Pods-RealmQnA.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,21 +95,35 @@
 		CAC0ACD51E949EC400DE0A76 /* RealmQnA */ = {
 			isa = PBXGroup;
 			children = (
+				CAF7E5421E9E209900427E6F /* Images */,
+				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
+				CA1151741E962694005D1FBD /* Constants.swift */,
+				CA11516A1E95DF31005D1FBD /* Question.swift */,
+				CA11516C1E95E14C005D1FBD /* User.swift */,
+				CA11516E1E960962005D1FBD /* Event.swift */,
 				CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */,
 				CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */,
 				CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */,
 				CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */,
 				CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */,
 				CAC0ACE21E949EC400DE0A76 /* Info.plist */,
-				CA11516A1E95DF31005D1FBD /* Question.swift */,
-				CA11516C1E95E14C005D1FBD /* User.swift */,
-				CA11516E1E960962005D1FBD /* Event.swift */,
-				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
-				CA1151741E962694005D1FBD /* Constants.swift */,
 				A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */,
 				A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */,
+				CAF7E5401E9E11D000427E6F /* EventDetailViewController.swift */,
+				CAF7E53C1E9E044800427E6F /* QuestionTableViewCell.swift */,
 			);
 			path = RealmQnA;
+			sourceTree = "<group>";
+		};
+		CAF7E5421E9E209900427E6F /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CAF7E5431E9E20AC00427E6F /* like-off.png */,
+				CAF7E5441E9E20AC00427E6F /* like-on.png */,
+				CAF7E5451E9E20AC00427E6F /* vote-off.png */,
+				CAF7E5461E9E20AC00427E6F /* vote-on.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		FB5737D77844768837B568B9 /* Pods */ = {
@@ -172,9 +198,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF7E5471E9E20AC00427E6F /* like-off.png in Resources */,
 				CAC0ACE11E949EC400DE0A76 /* LaunchScreen.storyboard in Resources */,
 				CAC0ACDE1E949EC400DE0A76 /* Assets.xcassets in Resources */,
+				CAF7E54A1E9E20AC00427E6F /* vote-on.png in Resources */,
 				CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */,
+				CAF7E5481E9E20AC00427E6F /* like-on.png in Resources */,
+				CAF7E5491E9E20AC00427E6F /* vote-off.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF7E53D1E9E044800427E6F /* QuestionTableViewCell.swift in Sources */,
 				A87B9E331E9CB0D50011D0F1 /* EventTableViewCell.swift in Sources */,
 				CA11516D1E95E14C005D1FBD /* User.swift in Sources */,
 				CA11516B1E95DF31005D1FBD /* Question.swift in Sources */,
@@ -241,6 +272,7 @@
 				CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */,
 				CA1151751E962694005D1FBD /* Constants.swift in Sources */,
 				CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */,
+				CAF7E5411E9E11D000427E6F /* EventDetailViewController.swift in Sources */,
 				CA11516F1E960962005D1FBD /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

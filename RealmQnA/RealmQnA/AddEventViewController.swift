@@ -60,7 +60,7 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
             }
         }
                 
-        let newEvent = Event(value: [eid, true, name])
+        let newEvent = Event(value: [eid, true, Date(), name])
                 
         try! realm.write {
             realm.add(newEvent)
