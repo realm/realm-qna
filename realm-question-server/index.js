@@ -19,7 +19,7 @@ let QuestionSchema = {
   properties: {
     id: 'int',
     status: {type: 'bool', default: true},
-    timestamp: 'date',
+    date: 'date',
     question: 'string',
     author: {type: 'User'},
     votes: {type: 'list', objectType: 'User'},
@@ -100,10 +100,10 @@ app.post('/', function(req, res) {
       qid = Number(req.body['qid']),
       vid = req.body['vid'],
       isVote = req.body['isVote'],
-      timestamp = new Date(),
+      date = new Date(),
       sess = req.session;
   
-      console.log("question: " + question + "qid: " + qid + "vid: " + vid)
+      console.log("question: " + question + " / qid: " + qid + " / vid: " + vid)
       
       if (vid) {
         let votes = syncRealm.objects('Question').filtered('id == ' + vid)[0].votes
@@ -131,13 +131,13 @@ app.post('/', function(req, res) {
         })
       } else if (question) {
         syncRealm.write(() => {
-          console.log("id: " + qid + "question: " + question)
-          syncRealm.create('Question', {id: qid, question: question, timestamp: timestamp}, true)
+          console.log("id: " + qid + " / question: " + question)
+          syncRealm.create('Question', {id: qid, question: question, date: date}, true)
         });
       } else if (qid){
         syncRealm.write(() => {
-          console.log("delete" + "id: " + qid)
-          syncRealm.create('Question', {id: qid, status: false, timestamp: timestamp}, true)
+          console.log("delete" + " id: " + qid)
+          syncRealm.create('Question', {id: qid, status: false, date: date}, true)
         })
       }
     }
@@ -161,7 +161,7 @@ app.post('/', function(req, res) {
 // 
 //       let qid = req.body['qid'],
 //       uid = req.body['uid'];
-//       console.log("qid: " + qid + "uid: " + uid)
+//       console.log("qid: " + qid + " / uid: " + uid)
 //       
 //       if (qid && uid) {
 //         let votes = syncRealm.objects('Question').filtered('id = "' + qid + '"')[0].votes;
@@ -194,7 +194,7 @@ app.post('/write', function(req, res) {
       });
 
       let question = req.body['question'],
-      timestamp = new Date(),
+      date = new Date(),
       questions = syncRealm.objects('Question').sorted('id', true)
       let id = (questions.length == 0 ? 0 : questions[0].id + 1)
 
@@ -212,8 +212,8 @@ app.post('/write', function(req, res) {
 
       syncRealm.write(() => {
         console.log("question write")
-        console.log("id: " + id + " author: " + newAuthor.id + "question: " + question);
-        syncRealm.create('Question', {id: id, question: question, author: newAuthor, timestamp: timestamp})
+        console.log("id: " + id + " / author: " + newAuthor.id + " / question: " + question);
+        syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date})
       });
     }
   });
