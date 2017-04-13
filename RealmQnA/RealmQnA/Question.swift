@@ -16,13 +16,9 @@ class Question: Object {
     dynamic var question = ""
     dynamic var author: User?
     var votes = List<User>()
-    dynamic var isFavorite = false
+    var favorites = List<User>()
     
     override static func primaryKey() -> String? {
         return "id"
-    }
-    
-    override static func ignoredProperties() -> [String] {
-        return ["isFavorite"]
     }
 }

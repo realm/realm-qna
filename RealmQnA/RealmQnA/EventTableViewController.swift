@@ -17,17 +17,18 @@ class EventTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        prepareController()
+        readEvents()
+    }
+    
+    func prepareController() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Event", style: .plain, target: self, action: #selector(addTapped))
         
-
         notificationCenter = NotificationCenter.default
         notificationCenter?.addObserver(forName:Notification.Name(rawValue:"eventAdded"), object:nil, queue:nil) {
             notification in
-                self.readEvents()
+            self.readEvents()
         }
-        
-        readEvents()
     }
     
     func addTapped() {

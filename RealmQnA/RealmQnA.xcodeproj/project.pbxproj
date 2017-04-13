@@ -74,6 +74,44 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CA7464AD1E9F160F00BE0648 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				CA11516A1E95DF31005D1FBD /* Question.swift */,
+				CA11516C1E95E14C005D1FBD /* User.swift */,
+				CA11516E1E960962005D1FBD /* Event.swift */,
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
+		CA7464AE1E9F162000BE0648 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */,
+				A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */,
+				CAF7E5401E9E11D000427E6F /* EventDetailViewController.swift */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		CA7464AF1E9F162F00BE0648 /* libraries */ = {
+			isa = PBXGroup;
+			children = (
+				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
+				CA1151741E962694005D1FBD /* Constants.swift */,
+			);
+			name = libraries;
+			sourceTree = "<group>";
+		};
+		CA7464B01E9F164000BE0648 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */,
+				CAF7E53C1E9E044800427E6F /* QuestionTableViewCell.swift */,
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
 		CAC0ACCA1E949EC400DE0A76 = {
 			isa = PBXGroup;
 			children = (
@@ -95,22 +133,16 @@
 		CAC0ACD51E949EC400DE0A76 /* RealmQnA */ = {
 			isa = PBXGroup;
 			children = (
-				CAF7E5421E9E209900427E6F /* Images */,
-				CA1151721E96263D005D1FBD /* SharedFunctionality.swift */,
-				CA1151741E962694005D1FBD /* Constants.swift */,
-				CA11516A1E95DF31005D1FBD /* Question.swift */,
-				CA11516C1E95E14C005D1FBD /* User.swift */,
-				CA11516E1E960962005D1FBD /* Event.swift */,
+				CA7464B01E9F164000BE0648 /* views */,
+				CA7464AF1E9F162F00BE0648 /* libraries */,
+				CA7464AE1E9F162000BE0648 /* controllers */,
+				CA7464AD1E9F160F00BE0648 /* models */,
 				CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */,
-				CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */,
 				CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */,
 				CAC0ACDD1E949EC400DE0A76 /* Assets.xcassets */,
 				CAC0ACDF1E949EC400DE0A76 /* LaunchScreen.storyboard */,
 				CAC0ACE21E949EC400DE0A76 /* Info.plist */,
-				A87B9E301E9CAA500011D0F1 /* EventTableViewController.swift */,
-				A87B9E321E9CB0D50011D0F1 /* EventTableViewCell.swift */,
-				CAF7E5401E9E11D000427E6F /* EventDetailViewController.swift */,
-				CAF7E53C1E9E044800427E6F /* QuestionTableViewCell.swift */,
+				CAF7E5421E9E209900427E6F /* Images */,
 			);
 			path = RealmQnA;
 			sourceTree = "<group>";

@@ -9,12 +9,23 @@
 import UIKit
 
 class QuestionTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var questionAuthorLabel: UILabel!
     @IBOutlet weak var questionDateLabel: UILabel!
     @IBOutlet weak var questionTextView: UITextView!
     @IBOutlet weak var questionVoteLabel: UILabel!
-    @IBOutlet weak var questionVoteImageView: UIImageView!
-    @IBOutlet weak var questionIsFavoriteImageView: UIImageView!
+    @IBOutlet weak var questionVoteButton: UIButton!
+    @IBOutlet weak var questionIsFavoriteButton: UIButton!
+    
+    dynamic var questionForCell: Question? = nil
+
+    @IBAction func questionVoteTapped(_ sender: Any) {
+        NotificationCenter.default.post(name:Notification.Name(rawValue:"questionUpdated"), object: nil, userInfo: ["question": questionForCell ?? "noQuestion", "type": "vote"])
+    }
+    
+    @IBAction func questionIsFavoriteTapped(_ sender: Any) {
+        NotificationCenter.default.post(name:Notification.Name(rawValue:"questionUpdated"), object: nil, userInfo: ["question": questionForCell ?? "noQuestion", "type": "isFavorite"])
+    }
+    
 }
 

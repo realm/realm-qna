@@ -81,9 +81,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         for question in questions {
             print(question.question)
         }
-                
-//        print("question count: %f", questions.count)
-
     }
     
     //MARK: textfields
