@@ -31,6 +31,12 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         self.questTableView.delegate = self
         self.questTableView.dataSource = self
         
+        prepareController()
+    }
+    
+    func prepareController() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit Name", style: .plain, target: self, action: #selector(editTapped))
+        
         notificationCenter = NotificationCenter.default
         notificationCenter?.addObserver(forName:Notification.Name(rawValue:"questionUpdated"), object:nil, queue:nil) {
             notification in
@@ -38,6 +44,26 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
 
+    func editTapped() {
+        let alert = UIAlertController(title: "Edit Event name", message: "Enter a new name", preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = self.navigationItem.title }
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0]
+            
+            // TODO: text length condition & event name change noti
+            
+            if ((textField?.text) != nil) {
+                self.navigationItem.title = textField?.text
+                self.updateEvent(name: (textField?.text)!)
+            }
+        }))
+
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Realm
     
     func prepareRealm() {
@@ -48,9 +74,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func readQuestions() {
-        questions = realm?.objects(Question.self).filter("status = true")
+        let sortProperties = [SortDescriptor(keyPath: "isAnswered", ascending: true), SortDescriptor(keyPath: "voteCount", ascending: false)]
         
-        // Observe Results Notifications
+        questions = realm?.objects(Question.self).filter("status = true").sorted(by: sortProperties)
         notificationToken = questions.addNotificationBlock { [weak self] (changes: RealmCollectionChange) in
             
             guard let tableView = self?.questTableView else { return }
@@ -60,7 +86,6 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 DispatchQueue.main.async {
                     tableView.reloadData()
                 }
-//                print("notification initial")
                 break
                 
             case .update(_, let deletions, let insertions, let modifications):
@@ -74,11 +99,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
                                          with: .automatic)
                     tableView.endUpdates()
                 }
-//                print("notification update")
                 break
                 
             case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
                 break
             }
@@ -92,7 +115,6 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func updateQuest(notification: Notification) {
-//        print(notification.userInfo ?? "no userInfo")
         let question = notification.userInfo?["question"] as! Question
         let userInfo = notification.userInfo
         
@@ -102,16 +124,16 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
             try! realm?.write {
                 for user in question.votes {
                     if user.id == currentUser?.id {
-                        
                         let index = question.votes.index(of: user)
                         question.votes.remove(objectAtIndex: index!)
-                        
+                        question.voteCount = question.voteCount - 1
                         isVoted = false
                     }
                 }
                 
                 if isVoted && (currentUser != nil) {
                     question.votes.append(currentUser!)
+                    question.voteCount = question.voteCount + 1
                 }
             }
         } else if (userInfo?["type"] as! String == "isFavorite") {
@@ -132,6 +154,10 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
                     question.favorites.append(currentUser!)
                 }
             }
+        } else if (userInfo?["type"] as! String == "isAnswered") {
+            try! realm?.write {
+                question.isAnswered = !question.isAnswered
+            }
         }
     }
     
@@ -141,10 +167,20 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
+    func updateEvent(name: String) {
+        let syncServerURL = Constants.syncEventURL
+        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
+        
+        let realm = try! Realm(configuration: config)
+        
+        try! realm.write {
+            myEvent.name = name
+        }
+    }
+    
     // MARK: - TableView data source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        print(questions.count)
         return questions.count
     }
     
@@ -152,11 +188,16 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: "questionsTableCell", for: indexPath) as! QuestionTableViewCell
         let question = questions[indexPath.row]
         
+        if question.isAnswered {
+            cell.questionBackgroundView.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 0.15)
+        } else {
+            cell.questionBackgroundView.backgroundColor = UIColor(displayP3Red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }
         cell.questionForCell = question
         cell.questionAuthorLabel.text = question.author?.id
         cell.questionDateLabel.text = dateAsString(date: question.date)
         cell.questionTextView.text = question.question
-        cell.questionVoteLabel.text = String(question.votes.count)
+        cell.questionVoteLabel.text = String(question.voteCount)
         cell.questionVoteButton.setBackgroundImage(UIImage(named: "vote-off"), for: .normal)
         cell.questionIsFavoriteButton.setBackgroundImage(UIImage(named: "like-off"), for: .normal)
         
@@ -178,12 +219,33 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView,
+                   editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let answer = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Answer") { (action , indexPath ) -> Void in
+            self.isEditing = false
+            NotificationCenter.default.post(name:Notification.Name(rawValue:"questionUpdated"), object: nil, userInfo: ["question": self.questions[indexPath.row], "type": "isAnswered"])
+        }
+        
+        let delete = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "Delete") { (action , indexPath) -> Void in
+            self.isEditing = false
+            self.deleteQuestion(question: self.questions[indexPath.row])
+            
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.endUpdates()
+        }
+        return [answer, delete]
+    }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            deleteQuestion(question: questions[indexPath.row])
-            tableView.reloadData()
-        }
+//        if editingStyle == .delete {
+//            deleteQuestion(question: questions[indexPath.row])
+//            
+//            tableView.beginUpdates()
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//            tableView.endUpdates()
+//        }
     }
     
     
@@ -196,5 +258,6 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     deinit {
         notificationToken?.stop()
+        notificationCenter?.removeObserver(self, name: Notification.Name(rawValue:"questionUpdated"), object: nil)
     }
 }

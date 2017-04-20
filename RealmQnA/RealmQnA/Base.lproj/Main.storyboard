@@ -210,8 +210,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="uiC-uN-P0n">
-                                                    <rect key="frame" x="13" y="42" width="348" height="60.5"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <rect key="frame" x="13" y="42" width="348" height="58.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -269,7 +269,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="eJl-58-NFc" secondAttribute="trailing" constant="6" id="e3a-Ts-oGY"/>
                                                 <constraint firstAttribute="topMargin" secondItem="Co8-lX-tsd" secondAttribute="top" constant="-11" id="hau-YR-bEo"/>
                                                 <constraint firstItem="Co8-lX-tsd" firstAttribute="leading" secondItem="drv-ET-a13" secondAttribute="leadingMargin" constant="10" id="mQa-wH-hWG"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="uiC-uN-P0n" secondAttribute="bottom" constant="9" id="q4G-yk-q1m"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="uiC-uN-P0n" secondAttribute="bottom" constant="11" id="q4G-yk-q1m"/>
                                                 <constraint firstItem="eJl-58-NFc" firstAttribute="centerY" secondItem="6R5-uP-DtN" secondAttribute="centerY" id="rwj-i9-Xbm"/>
                                                 <constraint firstItem="uiC-uN-P0n" firstAttribute="top" secondItem="Co8-lX-tsd" secondAttribute="bottom" constant="2" id="uzU-1v-2cC"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="uiC-uN-P0n" secondAttribute="trailing" constant="6" id="zNY-yw-uuc"/>
@@ -277,6 +277,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="questionAuthorLabel" destination="Co8-lX-tsd" id="KVZ-qs-Csr"/>
+                                            <outlet property="questionBackgroundView" destination="drv-ET-a13" id="thz-a5-4pc"/>
                                             <outlet property="questionDateLabel" destination="FSa-h7-JQS" id="fOR-jO-Qqz"/>
                                             <outlet property="questionIsFavoriteButton" destination="eJl-58-NFc" id="c1W-2O-kY9"/>
                                             <outlet property="questionTextView" destination="uiC-uN-P0n" id="Y9N-Mz-AIU"/>

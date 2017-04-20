@@ -16,6 +16,7 @@ class QuestionTableViewCell: UITableViewCell {
     @IBOutlet weak var questionVoteLabel: UILabel!
     @IBOutlet weak var questionVoteButton: UIButton!
     @IBOutlet weak var questionIsFavoriteButton: UIButton!
+    @IBOutlet weak var questionBackgroundView: UIView!
     
     dynamic var questionForCell: Question? = nil
 

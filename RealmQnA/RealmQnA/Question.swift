@@ -16,7 +16,9 @@ class Question: Object {
     dynamic var question = ""
     dynamic var author: User?
     var votes = List<User>()
+    dynamic var voteCount = 0
     var favorites = List<User>()
+    dynamic var isAnswered = false
     
     override static func primaryKey() -> String? {
         return "id"

@@ -100,7 +100,6 @@ class EventTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
-        print(events[indexPath.row])
         
         let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EventDetailViewController") as! EventDetailViewController
         detailViewController.myEvent = events[indexPath.row]
