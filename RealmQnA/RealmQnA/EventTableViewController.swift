@@ -84,6 +84,7 @@ class EventTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "eventTableViewCell", for: indexPath) as! EventTableViewCell
         
+        cell.backgroundColor = color(forRow: indexPath.row)
         cell.eventNameLable.text = events[indexPath.row].name
         cell.eventDateLable.text = String(events[indexPath.row].id)
         
@@ -95,6 +96,11 @@ class EventTableViewController: UITableViewController {
         let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EventDetailViewController") as! EventDetailViewController
         detailViewController.myEvent = events[indexPath.row]
         self.navigationController!.pushViewController(detailViewController, animated: true)
+    }
+    
+    func color(forRow row: Int) -> UIColor {
+        let fraction = Double(row) / Double(max(13, events.count))
+        return UIColor.listColors().gradientColor(atFraction: fraction)
     }
     
     deinit {

@@ -177,9 +177,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         let question = questions[indexPath.row]
         
         if question.isAnswered {
-            cell.questionBackgroundView.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 0.15)
+            cell.questionBackgroundView.backgroundColor = UIColor(displayP3Red: 0.1, green: 0.1, blue: 0.1, alpha: 0.6)
         } else {
-            cell.questionBackgroundView.backgroundColor = UIColor(displayP3Red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            cell.questionBackgroundView.backgroundColor = color(forRow: indexPath.row)
         }
         cell.questionForCell = question
         cell.questionAuthorLabel.text = question.author?.id
@@ -236,6 +236,11 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         realm = nil
         notificationToken?.stop()
         notificationCenter?.removeObserver(self, name: Notification.Name(rawValue:"questionUpdated"), object: nil)
+    }
+    
+    func color(forRow row: Int) -> UIColor {
+        let fraction = Double(row) / Double(max(13, questions.count))
+        return UIColor.taskColors().gradientColor(atFraction: fraction)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
