@@ -12,7 +12,7 @@ class QuestionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var questionAuthorLabel: UILabel!
     @IBOutlet weak var questionDateLabel: UILabel!
-    @IBOutlet weak var questionTextView: UITextView!
+    @IBOutlet weak var questionTextLabel: UILabel!
     @IBOutlet weak var questionVoteLabel: UILabel!
     @IBOutlet weak var questionVoteButton: UIButton!
     @IBOutlet weak var questionIsFavoriteButton: UIButton!
@@ -27,7 +27,5 @@ class QuestionTableViewCell: UITableViewCell {
     @IBAction func questionIsFavoriteTapped(_ sender: Any) {
         NotificationCenter.default.post(name:Notification.Name(rawValue:"questionUpdated"), object: nil, userInfo: ["question": questionForCell ?? "noQuestion", "type": "isFavorite"])
     }
-    
-    
 }
 

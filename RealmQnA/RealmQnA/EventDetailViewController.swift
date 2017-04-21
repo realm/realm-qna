@@ -43,6 +43,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
             notification in
             self.updateQuest(notification: notification)
         }
+        
+        self.questTableView.rowHeight = UITableViewAutomaticDimension
+        self.questTableView.estimatedRowHeight = 120
     }
     
     func editTapped() {
@@ -181,7 +184,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         cell.questionForCell = question
         cell.questionAuthorLabel.text = question.author?.id
         cell.questionDateLabel.text = dateAsString(date: question.date)
-        cell.questionTextView.text = question.question
+        cell.questionTextLabel.text = question.question
         cell.questionVoteLabel.text = String(question.voteCount)
         cell.questionVoteButton.setBackgroundImage(UIImage(named: "vote-off"), for: .normal)
         cell.questionIsFavoriteButton.setBackgroundImage(UIImage(named: "like-off"), for: .normal)
