@@ -14,6 +14,7 @@
 		CA11516F1E960962005D1FBD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA11516E1E960962005D1FBD /* Event.swift */; };
 		CA1151731E96263D005D1FBD /* SharedFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151721E96263D005D1FBD /* SharedFunctionality.swift */; };
 		CA1151751E962694005D1FBD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1151741E962694005D1FBD /* Constants.swift */; };
+		CA55D9E11EA9D6C6002A9E67 /* rqa-splash.png in Resources */ = {isa = PBXBuildFile; fileRef = CA55D9E01EA9D6C6002A9E67 /* rqa-splash.png */; };
 		CAC0ACD71E949EC400DE0A76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */; };
 		CAC0ACD91E949EC400DE0A76 /* AddEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */; };
 		CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAC0ACDA1E949EC400DE0A76 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		CA11516E1E960962005D1FBD /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		CA1151721E96263D005D1FBD /* SharedFunctionality.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedFunctionality.swift; sourceTree = "<group>"; };
 		CA1151741E962694005D1FBD /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CA55D9E01EA9D6C6002A9E67 /* rqa-splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rqa-splash.png"; path = "Images/rqa-splash.png"; sourceTree = "<group>"; };
 		CAC0ACD31E949EC400DE0A76 /* RealmQnA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmQnA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAC0ACD61E949EC400DE0A76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAC0ACD81E949EC400DE0A76 /* AddEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		CAF7E5421E9E209900427E6F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CA55D9E01EA9D6C6002A9E67 /* rqa-splash.png */,
 				CAF7E5431E9E20AC00427E6F /* like-off.png */,
 				CAF7E5441E9E20AC00427E6F /* like-on.png */,
 				CAF7E5451E9E20AC00427E6F /* vote-off.png */,
@@ -235,6 +238,7 @@
 				CAC0ACDE1E949EC400DE0A76 /* Assets.xcassets in Resources */,
 				CAF7E54A1E9E20AC00427E6F /* vote-on.png in Resources */,
 				CAC0ACDC1E949EC400DE0A76 /* Main.storyboard in Resources */,
+				CA55D9E11EA9D6C6002A9E67 /* rqa-splash.png in Resources */,
 				CAF7E5481E9E20AC00427E6F /* like-on.png in Resources */,
 				CAF7E5491E9E20AC00427E6F /* vote-off.png in Resources */,
 			);

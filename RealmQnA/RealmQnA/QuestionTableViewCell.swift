@@ -28,5 +28,6 @@ class QuestionTableViewCell: UITableViewCell {
         NotificationCenter.default.post(name:Notification.Name(rawValue:"questionUpdated"), object: nil, userInfo: ["question": questionForCell ?? "noQuestion", "type": "isFavorite"])
     }
     
+    
 }
 

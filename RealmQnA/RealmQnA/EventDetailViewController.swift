@@ -73,7 +73,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func readQuestions() {
-        let sortProperties = [SortDescriptor(keyPath: "isAnswered", ascending: true), SortDescriptor(keyPath: "voteCount", ascending: false)]
+        let sortProperties = [SortDescriptor(keyPath: "isAnswered", ascending: true), SortDescriptor(keyPath: "isFavorite", ascending: false),SortDescriptor(keyPath: "voteCount", ascending: false)]
         
         questions = realm?.objects(Question.self).filter("status = true").sorted(by: sortProperties)
         notificationToken = questions.addNotificationBlock { [weak self] (changes: RealmCollectionChange) in
@@ -136,22 +136,8 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 }
             }
         } else if (userInfo?["type"] as! String == "isFavorite") {
-            var isFavorite = true
-            
             try! realm?.write {
-                for user in question.favorites {
-                    if user.id == currentUser?.id {
-                        
-                        let index = question.favorites.index(of: user)
-                        question.favorites.remove(objectAtIndex: index!)
-                        
-                        isFavorite = false
-                    }
-                }
-                
-                if isFavorite && (currentUser != nil) {
-                    question.favorites.append(currentUser!)
-                }
+                question.isFavorite = !question.isFavorite
             }
         } else if (userInfo?["type"] as! String == "isAnswered") {
             try! realm?.write {
@@ -208,11 +194,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
             cell.questionVoteButton.setBackgroundImage(UIImage(named: "vote-off"), for: .normal)
         }
         
-        for favorite in question.favorites {
-            if (favorite.id == currentUser?.id) {
-                cell.questionIsFavoriteButton.setBackgroundImage(UIImage(named: "like-on"), for: .normal)
-                break
-            }
+        if question.isFavorite {
+            cell.questionIsFavoriteButton.setBackgroundImage(UIImage(named: "like-on"), for: .normal)
+        } else {
             cell.questionIsFavoriteButton.setBackgroundImage(UIImage(named: "like-off"), for: .normal)
         }
         
