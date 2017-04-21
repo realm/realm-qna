@@ -33,8 +33,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         eventName.text = ""
         eventNumber.text = ""
         
-        NotificationCenter.default.post(name:Notification.Name(rawValue:"eventAdded"), object: nil)
-        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -116,8 +114,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         scanner.locale = NSLocale.current
         return scanner.scanDecimal(nil) && scanner.isAtEnd
     }
-    
-
 }
 
 extension UIViewController {
@@ -131,4 +127,6 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
+
+
 

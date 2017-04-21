@@ -15,28 +15,20 @@ class EventTableViewController: UITableViewController {
     var notificationToken: NotificationToken? = nil
     var notificationCenter: NotificationCenter? = nil
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         prepareController()
         readEvents()
     }
     
     func prepareController() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Event", style: .plain, target: self, action: #selector(addTapped))
-        
-        notificationCenter = NotificationCenter.default
-        notificationCenter?.addObserver(forName:Notification.Name(rawValue:"eventAdded"), object:nil, queue:nil) {
-            notification in
-            self.readEvents()
-        }
     }
     
     func addTapped() {
         let addViewController = self.storyboard!.instantiateViewController(withIdentifier: "addEventViewController") as! AddEventViewController
         self.navigationController!.pushViewController(addViewController, animated: true)
     }
-    
-    // MARK: - Realm read & noti
     
     func readEvents() {
         let syncServerURL = Constants.syncEventURL
@@ -47,7 +39,7 @@ class EventTableViewController: UITableViewController {
         
         // Observe Results Notifications
         notificationToken = events.addNotificationBlock { [weak self] (changes: RealmCollectionChange) in
-            
+            print("Realm Notification")
             guard let tableView = self?.tableView else { return }
             switch changes {
             case .initial:
@@ -99,8 +91,7 @@ class EventTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-        
+
         let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EventDetailViewController") as! EventDetailViewController
         detailViewController.myEvent = events[indexPath.row]
         self.navigationController!.pushViewController(detailViewController, animated: true)

@@ -13,21 +13,22 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     var myEvent: Event!
     var questions: Results<Question>!
-    var realm: Realm?
+    var realm: Realm? = nil
     var notificationToken: NotificationToken? = nil
     var notificationCenter: NotificationCenter? = nil
     var currentUser: User? = nil
     
     @IBOutlet weak var questTableView: UITableView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         self.navigationItem.title = self.myEvent.name
         
         prepareRealm()
         upsertUser()
         readQuestions()
-    
+        
         self.questTableView.delegate = self
         self.questTableView.dataSource = self
         
@@ -36,14 +37,14 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     func prepareController() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit Name", style: .plain, target: self, action: #selector(editTapped))
-        
+
         notificationCenter = NotificationCenter.default
         notificationCenter?.addObserver(forName:Notification.Name(rawValue:"questionUpdated"), object:nil, queue:nil) {
             notification in
             self.updateQuest(notification: notification)
         }
     }
-
+    
     func editTapped() {
         let alert = UIAlertController(title: "Edit Event name", message: "Enter a new name", preferredStyle: .alert)
         
@@ -53,9 +54,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
             
-            // TODO: text length condition & event name change noti
-            
-            if ((textField?.text) != nil) {
+            if (textField != nil) && (textField?.text != nil) {
                 self.navigationItem.title = textField?.text
                 self.updateEvent(name: (textField?.text)!)
             }
@@ -171,9 +170,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         let syncServerURL = Constants.syncEventURL
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
         
-        let realm = try! Realm(configuration: config)
+        let eventRealm = try! Realm(configuration: config)
         
-        try! realm.write {
+        try! eventRealm.write {
             myEvent.name = name
         }
     }
@@ -238,17 +237,6 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         return [answer, delete]
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            deleteQuestion(question: questions[indexPath.row])
-//            
-//            tableView.beginUpdates()
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//            tableView.endUpdates()
-//        }
-    }
-    
-    
     func dateAsString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
@@ -256,8 +244,19 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         return str
     }
     
-    deinit {
+    func closeRealm() {
+        print("closeRealm")
+        realm = nil
         notificationToken?.stop()
         notificationCenter?.removeObserver(self, name: Notification.Name(rawValue:"questionUpdated"), object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        closeRealm()
+    }
+    
+    deinit {
+        closeRealm()
     }
 }
