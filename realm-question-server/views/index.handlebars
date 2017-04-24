@@ -20,11 +20,17 @@
     <th>Votes</th>
     <th>Action</th>
   </tr></thead>
+
 {{#each questions}}
+{{#if isAnswered}}
+<tr class="answered">
+{{else}}
 <tr>
+{{/if}}
+
   <td>{{author.id}}</td>
   <td>{{question}}</td>
-  <td>{{votes.length}}</td>
+  <td>{{voteCount}}</td>
   <td>
   {{#ifCond author.id ../currentUser}}
     <button id="edit" onclick="editQuestion(this.parentNode, {{id}}, '{{question}}' )">edit</button>
@@ -32,18 +38,21 @@
   {{/ifCond}}
   
   <button id="vote" onclick="voteQuestion(this.parentNode, {{id}}, 'true')">vote</button>
-  
+
   {{#each votes}}
     {{#ifCond id ../../currentUser}}
-      <button id="unvote" onclick="voteQuestion(this.parentNode, {{../id}},  'false')">unvote</button>
+      <button id="unvote" onclick="voteQuestion(this.parentNode, {{../id}}, 'false')">unvote</button>
     {{/ifCond}}
   {{/each}}
+
+
 </td>
 </tr>
 {{/each}}
 </table>
 
 <script>
+
 function editQuestion(targetDiv, qid, question) {
   while (targetDiv.hasChildNodes() ) {
     targetDiv.removeChild(targetDiv.firstChild)
@@ -121,6 +130,7 @@ function voteQuestion(targetDiv, vid, isVote) {
   if (isVote == "true") {
     hiddenFormVote.value = "true"
   }
+
   hiddenFormVote.style.display = 'none';
   
   var voteForm = document.createElement("form")

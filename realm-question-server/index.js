@@ -24,6 +24,7 @@ let QuestionSchema = {
     question: 'string',
     author: {type: 'User'},
     votes: {type: 'list', objectType: 'User'},
+    voteCount: 'int',
     isAnswered: {type: 'bool', default: false},
   }
 }
@@ -79,7 +80,7 @@ app.get('/', function(req, res) {
           schema: [QuestionSchema, UserSchema]
         });
 
-        let questions = syncRealm.objects('Question').filtered('status = true').sorted('id', true);
+        let questions = syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
         res.render('index', {currentUser: sess.author, questions: questions});
       } else {
         res.send(error.toString());
@@ -113,7 +114,8 @@ app.post('/', function(req, res) {
       console.log("question: " + question + " / qid: " + qid + " / vid: " + vid)
       
       if (vid) {
-        let votes = syncRealm.objects('Question').filtered('id == ' + vid)[0].votes
+        let targetQuestion = syncRealm.objects('Question').filtered('id == ' + vid)[0]
+        let votes = targetQuestion.votes
         
         var pred = 'id = "' + sess.author + '"'
         let voteUser =  syncRealm.objects('User').filtered(pred)
@@ -121,6 +123,8 @@ app.post('/', function(req, res) {
           syncRealm.write(() => {
             console.log("author write")
             voteUser = syncRealm.create('User', {id: sess.author}, true)
+            console.log("vote user")
+            console.log(voteUser)
           })
         } else {
           voteUser = voteUser[0]
@@ -130,10 +134,12 @@ app.post('/', function(req, res) {
           for (var i = 0, user; user = votes[i]; i++) {
             if (user.id == voteUser.id) {
               votes.splice(i, 1)
+              targetQuestion.voteCount--
             }
           }
           if (isVote == 'true') {
             votes.push(voteUser)
+            targetQuestion.voteCount++
           }
         })
       } else if (question) {
@@ -189,7 +195,7 @@ app.post('/write', function(req, res) {
       syncRealm.write(() => {
         console.log("question write")
         console.log("id: " + id + " / author: " + newAuthor.id + " / question: " + question);
-        syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date})
+        syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date, voteCount: 0})
       });
     }
   });
