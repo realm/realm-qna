@@ -93,55 +93,55 @@ app.get('/', function(req, res) {
 app.post('/', function(req, res) {
   console.log("post")
   
-      let question = req.body['question'],
-      qid = Number(req.body['qid']),
-      vid = req.body['vid'],
-      isVote = req.body['isVote'],
-      date = new Date(),
-      sess = req.session;
+  let question = req.body['question'],
+  qid = Number(req.body['qid']),
+  vid = req.body['vid'],
+  isVote = req.body['isVote'],
+  date = new Date(),
+  sess = req.session;
+
+  console.log("question: " + question + " / qid: " + qid + " / vid: " + vid)
   
-      console.log("question: " + question + " / qid: " + qid + " / vid: " + vid)
-      
-      if (vid) {
-        let targetQuestion = syncRealm.objects('Question').filtered('id == ' + vid)[0]
-        let votes = targetQuestion.votes
-        
-        var pred = 'id = "' + sess.author + '"'
-        let voteUser =  syncRealm.objects('User').filtered(pred)
-        if (voteUser.length == 0) {
-          syncRealm.write(() => {
-            console.log("author write")
-            voteUser = syncRealm.create('User', {id: sess.author}, true)
-            console.log("vote user")
-            console.log(voteUser)
-          })
-        } else {
-          voteUser = voteUser[0]
+  if (vid) {
+    let targetQuestion = syncRealm.objects('Question').filtered('id == ' + vid)[0]
+    let votes = targetQuestion.votes
+    
+    var pred = 'id = "' + sess.author + '"'
+    let voteUser =  syncRealm.objects('User').filtered(pred)
+    if (voteUser.length == 0) {
+      syncRealm.write(() => {
+        console.log("author write")
+        voteUser = syncRealm.create('User', {id: sess.author}, true)
+        console.log("vote user")
+        console.log(voteUser)
+      })
+    } else {
+      voteUser = voteUser[0]
+    }
+    
+    syncRealm.write(() => {
+      for (var i = 0, user; user = votes[i]; i++) {
+        if (user.id == voteUser.id) {
+          votes.splice(i, 1)
+          targetQuestion.voteCount--
         }
-        
-        syncRealm.write(() => {
-          for (var i = 0, user; user = votes[i]; i++) {
-            if (user.id == voteUser.id) {
-              votes.splice(i, 1)
-              targetQuestion.voteCount--
-            }
-          }
-          if (isVote == 'true') {
-            votes.push(voteUser)
-            targetQuestion.voteCount++
-          }
-        })
-      } else if (question) {
-        syncRealm.write(() => {
-          console.log("id: " + qid + " / question: " + question)
-          syncRealm.create('Question', {id: qid, question: question, date: date}, true)
-        });
-      } else if (qid){
-        syncRealm.write(() => {
-          console.log("delete" + " id: " + qid)
-          syncRealm.create('Question', {id: qid, status: false, date: date}, true)
-        })
       }
+      if (isVote == 'true') {
+        votes.push(voteUser)
+        targetQuestion.voteCount++
+      }
+    })
+  } else if (question) {
+    syncRealm.write(() => {
+      console.log("id: " + qid + " / question: " + question)
+      syncRealm.create('Question', {id: qid, question: question, date: date}, true)
+    });
+  } else if (qid){
+    syncRealm.write(() => {
+      console.log("delete" + " id: " + qid)
+      syncRealm.create('Question', {id: qid, status: false, date: date}, true)
+    })
+  }
 
   questions = syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
   res.render('index', {currentUser: sess.author, questions: questions});
@@ -154,30 +154,27 @@ app.post('/write', function(req, res) {
     sess.author = gennuid()
   }
 
-      let question = req.body['question'],
-      date = new Date(),
-      questions = syncRealm.objects('Question').sorted('id', true)
-      let id = (questions.length == 0 ? 0 : questions[0].id + 1)
+  let question = req.body['question'],
+  date = new Date(),
+  questions = syncRealm.objects('Question').sorted('id', true)
+  let id = (questions.length == 0 ? 0 : questions[0].id + 1)
+  var pred = 'id = "' + sess.author + '"'
+  let newAuthor =  syncRealm.objects('User').filtered(pred)
+  if (newAuthor.length == 0) {
+    syncRealm.write(() => {
+      console.log("author write")
+      newAuthor = syncRealm.create('User', {id: sess.author}, true)
+    });
+  } else {
+    newAuthor = newAuthor[0]
+  }
+  syncRealm.write(() => {
+    console.log("question write")
+    console.log("id: " + id + " / author: " + newAuthor.id + " / question: " + question);
+    syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date, voteCount: 0})
+  });
 
-      var pred = 'id = "' + sess.author + '"'
-      let newAuthor =  syncRealm.objects('User').filtered(pred)
-
-      if (newAuthor.length == 0) {
-        syncRealm.write(() => {
-          console.log("author write")
-          newAuthor = syncRealm.create('User', {id: sess.author}, true)
-        });
-      } else {
-        newAuthor = newAuthor[0]
-      }
-
-      syncRealm.write(() => {
-        console.log("question write")
-        console.log("id: " + id + " / author: " + newAuthor.id + " / question: " + question);
-        syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date, voteCount: 0})
-      });
-
-    res.redirect('/')
+  res.redirect('/')
 });
 
 app.listen(3000, function() {
