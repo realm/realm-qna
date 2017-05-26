@@ -28,7 +28,7 @@ let QuestionSchema = {
     isAnswered: {type: 'bool', default: false},
   }
 }
-
+ 
 let UserSchema = {
   name: 'User',
   primaryKey: 'id',
@@ -57,53 +57,42 @@ var handlebars = require('express-handlebars').create({
   },
   defaultLayout:'main'
 });
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
+var syncRealm;
+var questions;
 
+Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
+
+  if (!error) {
+    syncRealm = new Realm({
+      sync: {
+        user: user,
+        url: QUEST_SERVER_URL,
+      },
+      schema: [QuestionSchema, UserSchema]
+    });
+  } else {
+    res.send(error.toString());
+  }
+});
+    
 app.get('/', function(req, res) {
   var sess = req.session;
   if (!sess.author) {
     sess.author = gennuid()
   }
 
-  // let user = Realm.Sync.User.current;
+  console.log("redering the index")
+  questions = syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
+  res.render('index', {currentUser: sess.author, questions: questions});
 
-  // if (user == undefined) {
-    Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
-      var syncRealm;
-      if (!error) {
-        var syncRealm = new Realm({
-          sync: {
-            user: user,
-            url: QUEST_SERVER_URL,
-          },
-          schema: [QuestionSchema, UserSchema]
-        });
-
-        let questions = syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
-        res.render('index', {currentUser: sess.author, questions: questions});
-      } else {
-        res.send(error.toString());
-      }
-    });
-  // } else {
-
-  // }
 });
 
 app.post('/', function(req, res) {
   console.log("post")
   
-  Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
-    if (!error) {
-      let syncRealm = new Realm({
-        sync: {
-          user: user,
-          url: QUEST_SERVER_URL,
-        },
-        schema: [QuestionSchema, UserSchema]
-      });
-
       let question = req.body['question'],
       qid = Number(req.body['qid']),
       vid = req.body['vid'],
@@ -153,27 +142,17 @@ app.post('/', function(req, res) {
           syncRealm.create('Question', {id: qid, status: false, date: date}, true)
         })
       }
-    }
-  })
 
-  res.sendFile(__dirname + "/write-complete.html");
+  questions = syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
+  res.render('index', {currentUser: sess.author, questions: questions});
+  
 })
 
 app.post('/write', function(req, res) {
-  Realm.Sync.User.login(SERVER_URL, user, password, (error, user) => {
-    if (!error) {
-      var sess = req.session;
-      if (!sess.author) {
-        sess.author = gennuid()
-      }
-
-      let syncRealm = new Realm({
-        sync: {
-          user: user,
-          url: QUEST_SERVER_URL,
-        },
-        schema: [QuestionSchema, UserSchema]
-      });
+  var sess = req.session;
+  if (!sess.author) {
+    sess.author = gennuid()
+  }
 
       let question = req.body['question'],
       date = new Date(),
@@ -197,10 +176,8 @@ app.post('/write', function(req, res) {
         console.log("id: " + id + " / author: " + newAuthor.id + " / question: " + question);
         syncRealm.create('Question', {id: id, question: question, author: newAuthor, date: date, voteCount: 0})
       });
-    }
-  });
 
-  res.sendFile(__dirname + "/write-complete.html");
+    res.redirect('/')
 });
 
 app.listen(3000, function() {
