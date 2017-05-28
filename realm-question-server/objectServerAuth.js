@@ -1,11 +1,13 @@
+'use strict';
+
 const credentials = require('./credentials.js');
 const Realm = require('realm');
 
 module.exports = () => {
   const username = credentials.user;
   const password = credentials.password;
-  const SERVER_URL = credentials.server;
-  const QUEST_SERVER_URL = credentials.questserver;
+  const serverUrl = credentials.server;
+  const questServerUrl = credentials.questserver;
 
   const QuestionSchema = {
     name: 'Question',
@@ -20,7 +22,7 @@ module.exports = () => {
       voteCount: 'int',
       isAnswered: { type: 'bool', default: false },
     },
-  }
+  };
 
   const UserSchema = {
     name: 'User',
@@ -31,19 +33,19 @@ module.exports = () => {
   };
 
   return (req, res, next) => {
-    Realm.Sync.User.login(SERVER_URL, username, password, (error, user) => {
+    Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
       if (!error) {
         req.syncRealm = new Realm({
           sync: {
             user,
-            url: QUEST_SERVER_URL,
+            url: questServerUrl,
           },
           schema: [QuestionSchema, UserSchema],
         });
-        next()
+        next();
       } else {
         res.status(500).send(error.toString());
       }
-    })
+    });
   };
-}
+};

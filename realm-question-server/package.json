@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "nodemon index.js",
-    "lint": "eslint index.js || exit 0"
+    "lint": "eslint *.js || exit 0"
   },
   "author": "",
   "dependencies": {
