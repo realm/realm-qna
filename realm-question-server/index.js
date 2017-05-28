@@ -100,7 +100,7 @@ app.post('/', (req, res) => {
       log(`id: ${qid} / question: ${question}`);
       req.syncRealm.create('Question', { id: qid, question, date }, true);
     });
-  } else if (qid) {
+  } else if (typeof qid !== 'undefined') {
     req.syncRealm.write(() => {
       log(`delete id: ${qid}`);
       req.syncRealm.create('Question', { id: qid, status: false, date }, true);
