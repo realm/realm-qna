@@ -1,7 +1,3 @@
-body{
-
-}
-
 #question textarea{
   width:70%;
 }
@@ -10,14 +6,18 @@ body{
   color:#fff;
 }
 
-tr.answered{
+.answered{
   background-color:#e0e0e0;
 }
-
+.glyphicon{
+  font-size:18px;
+}
 .hover-color:hover{
   color:red;
 }
-
+.voted.hover-color:hover{
+  color:blue;
+}
 .row{
   min-height:40px;
 }
@@ -31,4 +31,9 @@ tr.answered{
 
 .question{
   border-bottom:1px solid #CCC;
+}
+
+.voted{
+  color:red;
+  font-weight: bold;
 }
