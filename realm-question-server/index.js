@@ -59,6 +59,9 @@ app.post('/', (req, res) => {
   const isVote = req.body.isVote;
   const date = new Date();
   const sess = req.session;
+  if (!sess.author) {
+    sess.author = genUuid();
+  }
 
   log(`question: ${question} / qid: ${qid} / vid: ${vid}`);
 
