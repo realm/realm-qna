@@ -84,13 +84,18 @@ app.post('/', (req, res) => {
       }
 
       req.syncRealm.write(() => {
+        let done = false;
         Object.keys(votes).forEach((i) => {
+          if (done) {
+            return;
+          }
           const user = votes[i];
           log(`user: ${user}`);
           log(`voteUser: ${voteUser}`);
           if (user.id === voteUser.id) {
             votes.splice(i, 1);
             targetQuestion.voteCount -= 1;
+            done = true;
           }
         });
         if (isVote === 'true') {
