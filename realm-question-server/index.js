@@ -67,34 +67,38 @@ app.post('/', (req, res) => {
 
   if (vid) {
     const targetQuestion = req.syncRealm.objects('Question').filtered(`id == ${vid}`)[0];
-    const votes = targetQuestion.votes;
-    const isOwned = `id = "'${sess.author}"`;
-    const voteUsers = req.syncRealm.objects('User').filtered(isOwned);
-    let voteUser;
-    if (voteUsers.length === 0) {
-      req.syncRealm.write(() => {
-        log('author write');
-        voteUser = req.syncRealm.create('User', { id: sess.author }, true);
-        log(`vote user: ${voteUser}`);
-        log(voteUser);
-      });
-    } else {
-      voteUser = voteUser[0];
-    }
+    if (targetQuestion) {
+      const votes = targetQuestion.votes;
+      const isOwned = `id = "'${sess.author}"`;
+      const voteUsers = req.syncRealm.objects('User').filtered(isOwned);
+      let voteUser;
+      if (voteUsers.length === 0) {
+        req.syncRealm.write(() => {
+          log('author write');
+          voteUser = req.syncRealm.create('User', { id: sess.author }, true);
+          log(`vote user: ${voteUser}`);
+          log(voteUser);
+        });
+      } else {
+        voteUser = voteUsers[0];
+      }
 
-    req.syncRealm.write(() => {
-      Object.keys(votes).forEach((i) => {
-        const user = votes[i];
-        if (user.id === voteUser.id) {
-          votes.splice(i, 1);
-          targetQuestion.voteCount -= 1;
+      req.syncRealm.write(() => {
+        Object.keys(votes).forEach((i) => {
+          const user = votes[i];
+          log(`user: ${user}`);
+          log(`voteUser: ${voteUser}`);
+          if (user.id === voteUser.id) {
+            votes.splice(i, 1);
+            targetQuestion.voteCount -= 1;
+          }
+        });
+        if (isVote === 'true') {
+          votes.push(voteUser);
+          targetQuestion.voteCount += 1;
         }
       });
-      if (isVote === 'true') {
-        votes.push(voteUser);
-        targetQuestion.voteCount += 1;
-      }
-    });
+    }
   } else if (question) {
     req.syncRealm.write(() => {
       log(`id: ${qid} / question: ${question}`);
