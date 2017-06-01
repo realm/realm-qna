@@ -22,3 +22,4 @@ credentials.js
 node_modules
 realm-object-server
 *.tgz
+Pods
