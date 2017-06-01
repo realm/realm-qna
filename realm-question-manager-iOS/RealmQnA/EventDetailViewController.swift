@@ -150,9 +150,9 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func deleteQuestion(question: Question) {
-        try! realm?.write {
-            question.status = false
-        }
+        realm?.beginWrite()
+        question.status = false
+        try! realm?.commitWrite(withoutNotifying: [notificationToken!])
     }
     
     func updateEvent(name: String) {
