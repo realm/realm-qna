@@ -9,7 +9,8 @@
 import Foundation
 
 struct Constants {
-    static let syncHost = "q.earlybird.kr"
+    // add host here
+    static let syncHost = ""
 
     static let syncAuthURL = URL(string: "http://\(syncHost):9080")!
     static let syncEventURL = URL(string: "realm://\(syncHost):9080/qna/event-realm")!
