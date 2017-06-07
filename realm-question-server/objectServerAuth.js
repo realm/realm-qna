@@ -32,20 +32,29 @@ module.exports = () => {
     },
   };
 
-  return (req, res, next) => {
-    Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
-      if (!error) {
-        req.syncRealm = new Realm({
-          sync: {
-            user,
-            url: questServerUrl,
-          },
-          schema: [QuestionSchema, UserSchema],
-        });
-        next();
-      } else {
-        res.status(500).send(error.toString());
-      }
+  function getSyncRealm(user) {
+    return new Realm({
+      sync: {
+        user,
+        url: questServerUrl,
+      },
+      schema: [QuestionSchema, UserSchema],
     });
+  }
+
+  return (req, res, next) => {
+    if (Realm.Sync.User.current) {
+      req.syncRealm = getSyncRealm(Realm.Sync.User.current);
+      next();
+    } else {
+      Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
+        if (!error) {
+          req.syncRealm = getSyncRealm(user);
+          next();
+        } else {
+          res.status(500).send(error.toString());
+        }
+      });
+    }
   };
 };
