@@ -11,7 +11,7 @@ module.exports = {
   user: 'example@example.com', 
   password: 'this-is-the-password', 
   server: 'http://127.0.0.1:9080',
-  questserver: 'http://127.0.0.1:9080',,,,
+  questserver: 'http://127.0.0.1:9080',
 };
 
 ```

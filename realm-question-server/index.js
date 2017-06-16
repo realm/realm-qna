@@ -44,7 +44,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:num', (req, res) => {
-  console.log(req.params.num);
   const sess = req.session;
   if (!sess.author) {
     sess.author = genUuid();
@@ -152,7 +151,7 @@ app.post('/:num/write', (req, res) => {
     req.syncRealm.create('Question', { id, question, author: newAuthor, date, voteCount: 0 });
   });
 
-  res.redirect('/' + req.params.num);
+  res.redirect(`/${req.params.num}`);
 });
 
 app.listen(3000, () => {
