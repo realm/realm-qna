@@ -32,11 +32,11 @@ module.exports = () => {
     },
   };
 
-  function getSyncRealm(user) {
+  function getSyncRealm(user, eventNumber) {
     return new Realm({
       sync: {
         user,
-        url: questServerUrl,
+        url: questServerUrl + eventNumber,
       },
       schema: [QuestionSchema, UserSchema],
     });
@@ -44,7 +44,9 @@ module.exports = () => {
 
   return (req, res, next) => {
     if (Realm.Sync.User.current) {
-      req.syncRealm = getSyncRealm(Realm.Sync.User.current);
+      let eventPath = req.path.split('/');
+        if (eventPath.length > 1)
+          req.syncRealm = getSyncRealm(Realm.Sync.User.current, eventPath[1]);
       next();
     } else {
       Realm.Sync.User.login(serverUrl, username, password, (error, user) => {

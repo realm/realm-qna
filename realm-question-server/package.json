@@ -15,7 +15,7 @@
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.2",
-    "realm": "file:realm-1.3.0-professional.tgz"
+    "realm": "file:realm-professional.tgz"
   },
   "license": "ISC",
   "devDependencies": {

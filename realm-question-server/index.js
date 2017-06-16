@@ -40,6 +40,11 @@ function genUuid() {
 }
 
 app.get('/', (req, res) => {
+  res.send('Welcome to Realm QnA, please add event number e.g. hostname/number');
+});
+
+app.get('/:num', (req, res) => {
+  console.log(req.params.num);
   const sess = req.session;
   if (!sess.author) {
     sess.author = genUuid();
@@ -47,10 +52,10 @@ app.get('/', (req, res) => {
 
   log('redering the index');
   const questions = req.syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
-  res.render('index', { currentUser: sess.author, questions });
+  res.render('index', { eventNumber: req.params.num, currentUser: sess.author, questions });
 });
 
-app.post('/', (req, res) => {
+app.post('/:num', (req, res) => {
   log('post');
 
   const question = req.body.question;
@@ -117,10 +122,10 @@ app.post('/', (req, res) => {
   }
 
   const questions = req.syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
-  res.render('index', { currentUser: sess.author, questions });
+  res.render('index', { eventNumber: req.params.num, currentUser: sess.author, questions });
 });
 
-app.post('/write', (req, res) => {
+app.post('/:num/write', (req, res) => {
   const sess = req.session;
   if (!sess.author) {
     sess.author = genUuid();
@@ -147,7 +152,7 @@ app.post('/write', (req, res) => {
     req.syncRealm.create('Question', { id, question, author: newAuthor, date, voteCount: 0 });
   });
 
-  res.redirect('/');
+  res.redirect('/' + req.params.num);
 });
 
 app.listen(3000, () => {
