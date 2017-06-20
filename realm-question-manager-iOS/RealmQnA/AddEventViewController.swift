@@ -12,35 +12,35 @@ import RealmSwift
 class AddEventViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var eventName: UITextField!
-    @IBOutlet weak var eventNumber: UITextField!
+    @IBOutlet weak var eventPath: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        initializeTextFields()
     }
 
     @IBAction func createNewEvent(_ sender: Any) {
         guard let nameText = eventName.text, !nameText.isEmpty else {
             return
         }
-        guard let numberText = eventNumber.text, !numberText.isEmpty else {
+        guard let pathText = eventPath.text, !pathText.isEmpty else {
             return
         }
         
-        makeEvent(eid: (Int(eventNumber.text!))!, name: eventName.text!)
+        makeEvent(eid: eventPath.text!, name: eventName.text!)
         
         eventName.text = ""
-        eventNumber.text = ""
+        eventPath.text = ""
         
         self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: realm
     
-    func makeEvent(eid: Int, name:String) {
+    func makeEvent(eid: String, name:String) {
         let syncServerURL = Constants.syncEventURL
-        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
+        var config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
+        config.objectTypes = [Event.self]
                 
         let realm = try! Realm(configuration: config)
         let events = realm.objects(Event.self)
@@ -67,8 +67,8 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         self.useQuestionRealm(eid: eid)
     }
     
-    func useQuestionRealm(eid:Int) {
-        let baseURL = "\(Constants.syncQuestionURL)\(String(eid))"
+    func useQuestionRealm(eid:String) {
+        let baseURL = "\(Constants.syncQuestionURL)\(eid)"
                 
         let syncServerURL = URL(string: baseURL)!
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
@@ -79,40 +79,6 @@ class AddEventViewController: UIViewController, UITextFieldDelegate {
         for question in questions {
             print(question.question)
         }
-    }
-    
-    //MARK: textfields
-    
-    func initializeTextFields() {
-        eventNumber.delegate = self
-        eventNumber.keyboardType = UIKeyboardType.decimalPad
-    }
-    
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String)
-        -> Bool {
-            if string.characters.count == 0 {
-                return true
-            }
-            
-            let currentText = textField.text ?? ""
-            let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
-            
-            switch textField {
-            case eventNumber:
-                return isNumeric(string: prospectiveText) &&
-                    prospectiveText.characters.count <= 8
-                
-            default:
-                return true
-            }
-    }
-    
-    func isNumeric(string: String) -> Bool {
-        let scanner = Scanner(string: string)
-        scanner.locale = NSLocale.current
-        return scanner.scanDecimal(nil) && scanner.isAtEnd
     }
 }
 

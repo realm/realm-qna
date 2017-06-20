@@ -32,7 +32,8 @@ class EventTableViewController: UITableViewController {
     
     func readEvents() {
         let syncServerURL = Constants.syncEventURL
-        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
+        var config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
+        config.objectTypes = [Event.self]
         
         let realm = try! Realm(configuration: config)
         events = realm.objects(Event.self).filter("status = true")

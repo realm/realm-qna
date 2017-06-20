@@ -69,8 +69,10 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     // MARK: - Realm
     
     func prepareRealm() {
-        let syncQuestionURL = URL(string: "\(Constants.syncQuestionURL)\(String(myEvent.id))")
-        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncQuestionURL!))
+        print("event: \(myEvent.id)")
+        let syncQuestionURL = URL(string: "\(Constants.syncQuestionURL)\(myEvent.id)")
+        var config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncQuestionURL!))
+        config.objectTypes = [User.self, Question.self]
         
         realm = try! Realm(configuration: config)
     }
@@ -156,6 +158,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func updateEvent(name: String) {
+        // TODO: add schema somewhere!
         let syncServerURL = Constants.syncEventURL
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: SyncUser.current!, realmURL: syncServerURL))
         

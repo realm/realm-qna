@@ -51,7 +51,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LZK-Wc-tJT">
                                 <rect key="frame" x="44" y="114" width="286" height="30"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="event number: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxO-gd-SUc">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="event path: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AxO-gd-SUc">
                                         <rect key="frame" x="0.0" y="0.0" width="126" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Ltm-QG-sj6"/>
@@ -100,7 +100,7 @@
                     </view>
                     <connections>
                         <outlet property="eventName" destination="Hv7-PY-3yP" id="I28-Sq-Zfd"/>
-                        <outlet property="eventNumber" destination="DwF-bx-tqj" id="uJP-vD-Pf7"/>
+                        <outlet property="eventPath" destination="DwF-bx-tqj" id="dLt-ec-94J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -116,7 +116,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventTableViewCell" id="2NQ-cA-aTL" customClass="EventTableViewCell" customModule="RealmQnA" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="eventTableViewCell" id="2NQ-cA-aTL" customClass="EventTableViewCell" customModule="RealmQnA" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="40" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2NQ-cA-aTL" id="l4l-iP-kH1">
