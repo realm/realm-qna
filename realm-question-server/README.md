@@ -1,5 +1,7 @@
 ## How to start
 
+![web01](//images.contentful.com/emmiduwd41v7/5YvIMIKtuoUmO6e0wOyi8G/b791be9a3e0715c9b257f62870da313c/web01.png)
+
 ### Realm Mobile Platform
 * run Realm Mobile Platform Professional edition
 
