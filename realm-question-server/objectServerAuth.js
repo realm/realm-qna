@@ -43,16 +43,16 @@ module.exports = () => {
   }
 
   return (req, res, next) => {
+    const eventPath = req.path.split('/');
     if (Realm.Sync.User.current) {
-      const eventPath = req.path.split('/');
       if (eventPath.length > 1) {
         req.syncRealm = getSyncRealm(Realm.Sync.User.current, eventPath[1]);
       }
       next();
     } else {
       Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
-        if (!error) {
-          req.syncRealm = getSyncRealm(user);
+        if (!error && eventPath.length > 1) {
+          req.syncRealm = getSyncRealm(user, eventPath[1]);
           next();
         } else {
           res.status(500).send(error.toString());

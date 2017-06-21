@@ -7,7 +7,7 @@
 
 ### Node server
 * add `realm-professional.tgz` file in `realm-question-server` directory.
-* add realm dependency `"realm": "file:realm-1.0.0-enterprise.tgz"`
+* add realm dependency `"realm": "file:realm-professional.tgz"`
 (refer to [Data Connector](https://realm.io/docs/realm-object-server/pe-ee/#data-connector) for detail)
 * create credentials.js with below format
 * `npm install`
