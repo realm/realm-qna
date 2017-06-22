@@ -8,6 +8,7 @@ module.exports = () => {
   const password = credentials.password;
   const serverUrl = credentials.server;
   const questServerUrl = credentials.questserver;
+  const eventServerUrl = credentials.eventserver;
 
   const QuestionSchema = {
     name: 'Question',
@@ -31,8 +32,40 @@ module.exports = () => {
       id: 'string',
     },
   };
+  
+  const EventSchema = {
+    name: 'Event',
+    primaryKey: 'id',
+    properties: {
+      id: 'string',
+      status: 'bool',
+      date: 'date',
+      name: 'string',
+    },
+  };
 
-  function getSyncRealm(user, eventNumber) {
+  function checkEventRealm(user, targetPath) {
+    let eventRealm = new Realm({
+      sync: {
+        user,
+        url: eventServerUrl,
+      },
+      schema: [EventSchema],
+    });
+    
+    const events = eventRealm.objects('Event').filtered('status = true');
+    
+    for (var i in events) {
+      const eventPath = events[i].id;
+      if (eventPath === targetPath) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  function getQuestionRealm(user, eventNumber) {
     return new Realm({
       sync: {
         user,
@@ -44,20 +77,29 @@ module.exports = () => {
 
   return (req, res, next) => {
     const eventPath = req.path.split('/');
-    if (Realm.Sync.User.current) {
-      if (eventPath.length > 1) {
-        req.syncRealm = getSyncRealm(Realm.Sync.User.current, eventPath[1]);
+    if (eventPath.length > 1 && eventPath[1] !== '' && eventPath[1] !== 'favicon.ico') {
+      console.log('--------' + eventPath[1]);
+      var isValidPath;
+      if (Realm.Sync.User.current) {
+        isValidPath = checkEventRealm(Realm.Sync.User.current, eventPath[1]);
+      } else {
+        Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
+          if (!error) {
+            isValidPath = checkEventRealm(user, eventPath[1]);
+          } else {
+            res.status(500).send(error.toString());
+          }
+        });
       }
-      next();
+      
+      if (isValidPath) {
+        req.syncRealm = getQuestionRealm(Realm.Sync.User.current, eventPath[1]);
+        next();
+      } else {
+        res.status(500).send('No such a event! Please access with event path e.g. hostname/path');
+      }
     } else {
-      Realm.Sync.User.login(serverUrl, username, password, (error, user) => {
-        if (!error && eventPath.length > 1) {
-          req.syncRealm = getSyncRealm(user, eventPath[1]);
-          next();
-        } else {
-          res.status(500).send(error.toString());
-        }
-      });
+      res.send('Welcome to Realm QnA. Please add event path e.g. hostname/path');
     }
   };
 };

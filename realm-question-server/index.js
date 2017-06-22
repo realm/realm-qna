@@ -40,7 +40,7 @@ function genUuid() {
 }
 
 app.get('/', (req, res) => {
-  res.send('Welcome to Realm QnA, please add event number e.g. hostname/number');
+  res.send('Welcome to Realm QnA. Please add event path e.g. hostname/path');
 });
 
 app.get('/:num', (req, res) => {
