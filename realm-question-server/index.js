@@ -154,6 +154,6 @@ app.post('/:num/write', (req, res) => {
   res.redirect(`/${req.params.num}`);
 });
 
-app.listen(3000, () => {
-  log('listening localhost:3000');
+app.listen(80, () => {
+  log('listening localhost:80');
 });
