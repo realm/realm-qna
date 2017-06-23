@@ -4,7 +4,7 @@ Realm QnA is a sample application for question and answer management for events.
 
 ### QnA Manager app
 
-![manager06](http://images.contentful.com/emmiduwd41v7/2uxWKdSItCW8KSCCoAuq0a/cbe3ddf1ba344fd1d6e494640cad4141/manager06.PNG)
+![manager06](http://images.contentful.com/emmiduwd41v7/2uxWKdSItCW8KSCCoAuq0a/22813c4b8a365b2a78544ff70d699456/manager06.PNG)
 
 Managers can create event with specific path, and edit event name. After create an event, users can create questions. Managers can answer, delete and vote questions.
 
