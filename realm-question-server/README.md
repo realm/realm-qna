@@ -21,6 +21,7 @@ module.exports = {
   password: 'this-is-the-password', 
   server: 'http://127.0.0.1:9080',
   questserver: 'http://127.0.0.1:9080/qna-question-realm',
+  eventserver: 'realm://127.0.0.1:9080/qna-event-realm',
 };
 
 ```
