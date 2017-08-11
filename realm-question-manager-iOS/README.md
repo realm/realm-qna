@@ -12,7 +12,7 @@
 ### login
 * use appropriate username / password for login
 
-![manager01](http://images.contentful.com/emmiduwd41v7/1e5PIT5wbWmuAW2CuEmgUI/a2449af984add572b7c3c3c17cb14acc/manager01.PNG)
+![manager01](https://images.contentful.com/emmiduwd41v7/2oOirjSwQUuuAGI2sQEwIQ/1de2a89bc61dc1257c6a9f272fb7008a/login.gif)
 
 ### add event
 * tab Add Event button
