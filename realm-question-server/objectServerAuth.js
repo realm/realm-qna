@@ -50,7 +50,7 @@ module.exports = () => {
       id: 'string',
     },
   };
-  
+
   const EventSchema = {
     name: 'Event',
     primaryKey: 'id',
@@ -70,19 +70,19 @@ module.exports = () => {
       },
       schema: [EventSchema],
     });
-    
+
     const events = eventRealm.objects('Event').filtered('status = true');
-    
+
     for (var i in events) {
       const eventPath = events[i].id;
       if (eventPath === targetPath) {
         return true;
       }
     }
-    
+
     return false;
   }
-  
+
   function getQuestionRealm(user, eventNumber) {
     return new Realm({
       sync: {
@@ -109,7 +109,7 @@ module.exports = () => {
           }
         });
       }
-      
+
       if (isValidPath) {
         req.syncRealm = getQuestionRealm(Realm.Sync.User.current, eventPath[1]);
         next();
