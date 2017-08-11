@@ -1,3 +1,5 @@
+# Realm QnA
+
 ## Overview
 
 ![overview](https://images.contentful.com/emmiduwd41v7/3OA5V3IeFOkacuauCims8a/213930f48fe70f7ec806e107f81a19f9/qna-overview.png)
@@ -34,4 +36,7 @@ Users are automatically identified with session cookies. Users can create, edit,
 
 ![web01](http://images.contentful.com/emmiduwd41v7/5YvIMIKtuoUmO6e0wOyi8G/b791be9a3e0715c9b257f62870da313c/web01.png)
 
+# License
+
+The source code for RealmTasks is licensed under the [Apache License 2.0](LICENSE).
 ![analytics](https://ga-beacon.appspot.com/UA-50247013-2/realm-qna/README?pixel)
