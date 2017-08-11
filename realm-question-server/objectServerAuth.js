@@ -1,4 +1,3 @@
-////////////////////////////////////////////////////////////////////////////
 //
 // Copyright 2017 Realm Inc.
 //
@@ -14,12 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-////////////////////////////////////////////////////////////////////////////
 
 'use strict';
 
 const credentials = require('./credentials.js');
+const debug = require('debug');
 const Realm = require('realm');
+
+const log = debug('app:log');
 
 module.exports = () => {
   const username = credentials.user;
@@ -63,7 +64,7 @@ module.exports = () => {
   };
 
   function checkEventRealm(user, targetPath) {
-    let eventRealm = new Realm({
+    const eventRealm = new Realm({
       sync: {
         user,
         url: eventServerUrl,
@@ -72,15 +73,11 @@ module.exports = () => {
     });
 
     const events = eventRealm.objects('Event').filtered('status = true');
-
-    for (var i in events) {
-      const eventPath = events[i].id;
-      if (eventPath === targetPath) {
-        return true;
-      }
-    }
-
-    return false;
+    return events.some((event) => {
+      const eventPath = event.id;
+      log(`eventPath: ${eventPath} / targetPah: ${targetPath}`);
+      return eventPath === targetPath;
+    });
   }
 
   function getQuestionRealm(user, eventNumber) {
@@ -95,9 +92,10 @@ module.exports = () => {
 
   return (req, res, next) => {
     const eventPath = req.path.split('/');
+    let isValidPath;
+
     if (eventPath.length > 1 && eventPath[1] !== '' && eventPath[1] !== 'favicon.ico') {
-      console.log('--------' + eventPath[1]);
-      var isValidPath;
+      log(`--------${eventPath[1]}`);
       if (Realm.Sync.User.current) {
         isValidPath = checkEventRealm(Realm.Sync.User.current, eventPath[1]);
       } else {

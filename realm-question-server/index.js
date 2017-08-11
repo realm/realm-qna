@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+//
 //
 // Copyright 2017 Realm Inc.
 //
@@ -14,7 +14,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-////////////////////////////////////////////////////////////////////////////
 
 'use strict';
 
@@ -61,7 +60,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to Realm QnA. Please add event path e.g. hostname/path');
 });
 
-app.get('/:num', (req, res) => {
+app.get('/:eventSlug', (req, res) => {
   const sess = req.session;
   if (!sess.author) {
     sess.author = genUuid();
@@ -69,15 +68,15 @@ app.get('/:num', (req, res) => {
 
   log('redering the index');
   const questions = req.syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
-  res.render('index', { eventNumber: req.params.num, currentUser: sess.author, questions });
+  res.render('index', { eventSlug: req.params.eventSlug, currentUser: sess.author, questions });
 });
 
-app.post('/:num', (req, res) => {
+app.post('/:eventSlug', (req, res) => {
   log('post');
 
+  const mode = req.body.mode;
   const question = req.body.question;
-  const qid = Number(req.body.qid);
-  const vid = req.body.vid;
+  const id = Number(req.body.id);
   const isVote = req.body.isVote;
   const date = new Date();
   const sess = req.session;
@@ -85,10 +84,10 @@ app.post('/:num', (req, res) => {
     sess.author = genUuid();
   }
 
-  log(`question: ${question} / qid: ${qid} / vid: ${vid}`);
+  log(`mode: ${mode} / question: ${question} / id: ${id}`);
 
-  if (vid) {
-    const targetQuestion = req.syncRealm.objects('Question').filtered(`id == ${vid}`)[0];
+  if (mode === 'vote') {
+    const targetQuestion = req.syncRealm.objects('Question').filtered(`id == ${id}`)[0];
     if (targetQuestion) {
       const votes = targetQuestion.votes;
       const isOwned = `id = "'${sess.author}"`;
@@ -126,23 +125,23 @@ app.post('/:num', (req, res) => {
         }
       });
     }
-  } else if (question) {
+  } else if (mode === 'write' || mode === 'edit') {
+    log(`id: ${id} / question: ${question}`);
     req.syncRealm.write(() => {
-      log(`id: ${qid} / question: ${question}`);
-      req.syncRealm.create('Question', { id: qid, question, date }, true);
+      req.syncRealm.create('Question', { id, question, date }, true);
     });
-  } else if (typeof qid !== 'undefined') {
+  } else if (mode === 'remove') {
+    log(`delete id: ${id}`);
     req.syncRealm.write(() => {
-      log(`delete id: ${qid}`);
-      req.syncRealm.create('Question', { id: qid, status: false, date }, true);
+      req.syncRealm.create('Question', { id, status: false, date }, true);
     });
   }
 
   const questions = req.syncRealm.objects('Question').filtered('status = true').sorted([['isAnswered', false], ['voteCount', true]]);
-  res.render('index', { eventNumber: req.params.num, currentUser: sess.author, questions });
+  res.render('index', { eventSlug: req.params.eventSlug, currentUser: sess.author, questions });
 });
 
-app.post('/:num/write', (req, res) => {
+app.post('/:eventSlug/write', (req, res) => {
   const sess = req.session;
   if (!sess.author) {
     sess.author = genUuid();
@@ -169,7 +168,7 @@ app.post('/:num/write', (req, res) => {
     req.syncRealm.create('Question', { id, question, author: newAuthor, date, voteCount: 0 });
   });
 
-  res.redirect(`/${req.params.num}`);
+  res.redirect(`/${req.params.eventSlug}`);
 });
 
 app.listen(80, () => {
