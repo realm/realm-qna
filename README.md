@@ -4,6 +4,20 @@
 
 Realm QnA is a sample application for question and answer management for events. Users can ask questions anonymously on web page, and managers can answer those questions. The data is synchronized in realtime with Realm Mobile Platform Professional edition.
 
+### How to use
+
+#### Admin
+
+1. Run iOS application
+2. Login with valid user credential
+3. Create event with unique {path}
+4. Manage specific event in the event detail page
+
+#### Users
+
+1. Connect hostname/{path} : use same path with #3 above
+2. User is automatically identified by session
+
 ### QnA Manager app
 
 ![manager06](http://images.contentful.com/emmiduwd41v7/2uxWKdSItCW8KSCCoAuq0a/22813c4b8a365b2a78544ff70d699456/manager06.PNG)
