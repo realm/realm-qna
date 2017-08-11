@@ -15,7 +15,7 @@ Realm QnA is a sample application for question and answer management for events.
 
 #### Users
 
-1. Connect hostname/{path} : use same path with #3 above
+1. Connect to "hostname/{path}" : use {path} created by admin
 2. User is automatically identified by session
 
 ### QnA Manager app
