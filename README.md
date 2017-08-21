@@ -36,6 +36,12 @@ Users are automatically identified with session cookies. Users can create, edit,
 
 ![web01](http://images.contentful.com/emmiduwd41v7/5YvIMIKtuoUmO6e0wOyi8G/b791be9a3e0715c9b257f62870da313c/web01.png)
 
+# Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details!
+
+This project adheres to the [Contributor Covenant Code of Conduct](https://realm.io/conduct/). By participating, you are expected to uphold this code. Please report unacceptable behavior to [info@realm.io](mailto:info@realm.io).
+
 # License
 
 The source code for RealmTasks is licensed under the [Apache License 2.0](LICENSE).
