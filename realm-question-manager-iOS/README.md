@@ -12,16 +12,16 @@
 ### login
 * use appropriate username / password for login
 
-![manager01](https://images.contentful.com/emmiduwd41v7/2oOirjSwQUuuAGI2sQEwIQ/1de2a89bc61dc1257c6a9f272fb7008a/login.gif)
+![login](/graphics/login.gif)
 
 ### add event
 * tab Add Event button
 
-![manager02](http://images.contentful.com/emmiduwd41v7/5UeKro8WCAa0QqgqsSOO8/efe8281496e7c2d9407db57af13b7ead/manager02.PNG)
+![eventlist](/graphics/eventlist.png)
 
 * provide `name` and `path`
 
-![manager03](http://images.contentful.com/emmiduwd41v7/3zl9JiREusEgy6GWmES0Ik/372cad86602270ebe5118aaa15e13bf8/manager03.PNG)
+![create_event](/graphics/create_event)
 
 * tap create button
 * after creating an event, web users can access Realm QnA page with `yourserver/path`
@@ -29,12 +29,12 @@
 ### edit event name
 * move to event detail to tab target event cell
 
-![manager04](http://images.contentful.com/emmiduwd41v7/5dYA1OxsRiA2MUOumy2w0/6d142311c3d252ada4297a4509f03144/manager04.PNG)
+![edit_event](/graphics/edit_event.png)
 
 * tab Edit Name button
 * provide new event name
 
-![manager05](http://images.contentful.com/emmiduwd41v7/2T3AjghgL64kOgKMQCekWG/004c9164fe32dde703a81a8b5f678722/manager05.PNG)
+![edit_event_detail](/graphics/edit_event_detail.png)
 
 * tab ok button
 * note: you can't edit event path
@@ -44,4 +44,4 @@
 * swipe left a question cell to answer or to delete
 * thumb up button is for vote and heart button is for favorite
 
-![manager06](http://images.contentful.com/emmiduwd41v7/2uxWKdSItCW8KSCCoAuq0a/22813c4b8a365b2a78544ff70d699456/manager06.PNG)
+![manager](/graphics/manager.png)

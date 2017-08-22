@@ -1,6 +1,6 @@
 ## How to start
 
-![web02](http://images.contentful.com/emmiduwd41v7/3qmz30yn9mu0QcwE8aQ2aa/ec0264c1c657c23d03f8001101bb5583/web02.png)
+![web](/graphics/web.png)
 
 ### Realm Mobile Platform
 * run Realm Mobile Platform Professional edition
