@@ -91,7 +91,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
         let sortProperties = [SortDescriptor(keyPath: "isAnswered", ascending: true), SortDescriptor(keyPath: "isFavorite", ascending: false),SortDescriptor(keyPath: "voteCount", ascending: false)]
         
         questions = realm?.objects(Question.self).filter("status = true").sorted(by: sortProperties)
-        notificationToken = questions.addNotificationBlock { [weak self] (changes: RealmCollectionChange) in
+        notificationToken = questions.observe { [weak self] (changes: RealmCollectionChange) in
             
             guard let tableView = self?.questTableView else { return }
             
@@ -139,7 +139,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
                 for user in question.votes {
                     if user.id == currentUser?.id {
                         let index = question.votes.index(of: user)
-                        question.votes.remove(objectAtIndex: index!)
+                        question.votes.remove(at: index!)
                         question.voteCount = question.voteCount - 1
                         isVoted = false
                     }
@@ -247,7 +247,7 @@ class EventDetailViewController: UIViewController, UITableViewDelegate, UITableV
     func closeRealm() {
         print("closeRealm")
         realm = nil
-        notificationToken?.stop()
+        notificationToken?.invalidate()
         notificationCenter?.removeObserver(self, name: Notification.Name(rawValue:"questionUpdated"), object: nil)
     }
     

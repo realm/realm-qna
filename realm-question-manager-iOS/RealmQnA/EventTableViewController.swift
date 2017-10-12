@@ -49,7 +49,7 @@ class EventTableViewController: UITableViewController {
         events = realm.objects(Event.self).filter("status = true")
         
         // Observe Results Notifications
-        notificationToken = events.addNotificationBlock { [weak self] (changes: RealmCollectionChange) in
+        notificationToken = events.observe { [weak self] (changes: RealmCollectionChange) in
             print("Realm Notification")
             guard let tableView = self?.tableView else { return }
             switch changes {
@@ -115,7 +115,7 @@ class EventTableViewController: UITableViewController {
     }
     
     deinit {
-        notificationToken?.stop()
+        notificationToken?.invalidate()
         notificationCenter?.removeObserver(self, name: Notification.Name(rawValue:"eventAdded"), object: nil)
     }
 }

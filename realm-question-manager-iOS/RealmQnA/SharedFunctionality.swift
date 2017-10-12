@@ -53,7 +53,7 @@ func resetDefaultRealm() {
         return
     }
 
-    deduplicationNotificationToken.stop()
+    deduplicationNotificationToken.invalidate()
 
     user.logOut()
 }
